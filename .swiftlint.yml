@@ -1,0 +1,25 @@
+disabled_rules:
+  - trailing_whitespace
+  - todo
+  - identifier_name
+  - line_length
+  - function_body_length
+  - cyclomatic_complexity
+  - type_body_length
+  - file_length
+
+opt_in_rules:
+  - empty_count
+  - empty_string
+
+included:
+  - OrMiMu
+  - OrMiMuTests
+  - OrMiMuUITests
+
+excluded:
+  - Pods
+  - Carthage
+  - Package.swift
+
+reporter: "xcode"

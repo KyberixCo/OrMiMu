@@ -1,0 +1,24 @@
+name: Build
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install dependencies
+      run: |
+        brew install xcodegen swiftlint
+
+    - name: Generate Project
+      run: xcodegen generate
+
+    - name: Build and Test
+      run: xcodebuild test -scheme OrMiMu -destination 'platform=macOS'
