@@ -2,3 +2,6 @@
 OrMiMu.xcodeproj/project.xcworkspace/xcuserdata/manuelgalindo.xcuserdatad/UserInterfaceState.xcuserstate
 OrMiMu.xcodeproj/project.xcworkspace/xcuserdata/manuelgalindo.xcuserdatad/UserInterfaceState.xcuserstate
 *.xcuserstate
+*.xcodeproj
+*.xcworkspace
+Icon/Pinneaple Exports/*

@@ -12,127 +12,238 @@ import AVFoundation
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var allSongs: [SongItem]
+    @Query(sort: \PlaylistItem.name) private var playlists: [PlaylistItem]
+
     @State private var playableSong: URL? = nil
-    @State private var selectedTab: SidebarItem? = .library
     
-    // For Playlists navigation
-    @State private var playlistPath = NavigationPath()
-    @State private var selectedPlaylist: PlaylistItem?
+    // Navigation State
+    @AppStorage("showPlayer") private var showPlayer = true
+    @State private var selectedItem: SidebarItem? = .library
     @State private var showSmartPlaylistSheet = false
+    @State private var showNewPlaylistAlert = false
+    @State private var showSyncSheet = false
+    @State private var playlistToRename: PlaylistItem?
+    @State private var showRenameAlert = false
 
     @StateObject private var statusManager = StatusManager()
     @StateObject private var audioPlayerManager = AudioPlayerManager()
     @StateObject private var downloadManager = DownloadManager()
+    @StateObject private var deviceManagerContext = DeviceManagerContext()
 
     enum SidebarItem: Hashable, Identifiable {
         case library
-        case playlists
         case download
+        case external
+        case playlist(PlaylistItem)
 
-        var id: Self { self }
-
-        var name: String {
+        var id: String {
             switch self {
-            case .library: return "Library"
-            case .playlists: return "Playlists"
-            case .download: return "Download"
+            case .library: return "library"
+            case .download: return "download"
+            case .external: return "external"
+            case .playlist(let item): return item.id.uuidString
             }
         }
-    }
-
-    var currentTitle: String {
-        return "OrMiMu - \(selectedTab?.name ?? "")"
     }
 
     var body: some View {
-        VStack(spacing: 0) {
-            // Header / Content Selector
-            HStack(spacing: 20) {
-                Button(action: { selectedTab = .library }) {
-                    Label("Library", systemImage: "music.note")
+        NavigationSplitView {
+            VStack(spacing: 0) {
+                // System Items
+                VStack(spacing: 0) {
+                    SidebarButton(title: "LIBRARY", icon: "music.note", isSelected: selectedItem == .library) {
+                        selectedItem = .library
+                    }
+                    SidebarButton(title: "DOWNLOADS", icon: "arrow.down.circle", isSelected: selectedItem == .download) {
+                        selectedItem = .download
+                    }
+                    SidebarButton(title: "DEVICES", icon: "externaldrive", isSelected: selectedItem == .external) {
+                        selectedItem = .external
+                    }
                 }
-                .buttonStyle(HeaderButtonStyle(isSelected: selectedTab == .library))
 
-                Button(action: { selectedTab = .playlists }) {
-                    Label("Playlists", systemImage: "music.note.list")
-                }
-                .buttonStyle(HeaderButtonStyle(isSelected: selectedTab == .playlists))
+                // Playlists Section
+                if !playlists.isEmpty {
+                    Text("PLAYLISTS")
+                        .kyberixHeader()
+                        .padding(.horizontal, 16)
+                        .padding(.top, 20)
+                        .padding(.bottom, 8)
+                        .frame(maxWidth: .infinity, alignment: .leading)
 
-                Button(action: { selectedTab = .download }) {
-                    Label("Download", systemImage: "arrow.down.circle")
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            ForEach(playlists) { playlist in
+                                SidebarButton(
+                                    title: playlist.name,
+                                    icon: playlist.isSmart ? "gearshape" : "music.note.list",
+                                    isSelected: selectedItem == .playlist(playlist)
+                                ) {
+                                    selectedItem = .playlist(playlist)
+                                }
+                                .contextMenu {
+                                    Button("Rename") {
+                                        playlistToRename = playlist
+                                        showRenameAlert = true
+                                    }
+                                    Button("Delete") {
+                                        modelContext.delete(playlist)
+                                        if case .playlist(let selected) = selectedItem, selected == playlist {
+                                            selectedItem = nil
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
-                .buttonStyle(HeaderButtonStyle(isSelected: selectedTab == .download))
 
                 Spacer()
-
-                if selectedTab == .library {
-                    Button(action: refreshMetadata) {
-                        Label("Update Metadata", systemImage: "arrow.triangle.2.circlepath")
+            }
+            .background(Color.kyberixBlack)
+            .overlay(
+                Rectangle()
+                    .frame(width: 1)
+                    .foregroundStyle(Color.kyberixGrey),
+                alignment: .trailing
+            )
+            .navigationTitle("OrMiMu")
+            .toolbar {
+                ToolbarItemGroup(placement: .primaryAction) {
+                    Button(action: { showPlayer.toggle() }) {
+                        Label("Toggle Player", systemImage: showPlayer ? "hifispeaker.fill" : "hifispeaker")
                     }
-                    Button(action: addFolder) {
-                        Label("Add Folder", systemImage: "folder.badge.plus")
-                    }
-                } else if selectedTab == .playlists {
-                     Button(action: { showSmartPlaylistSheet = true }) {
-                        Label("Smart Playlist", systemImage: "wand.and.stars")
-                    }
-                    Button(action: addPlaylist) {
+                    Button(action: { showNewPlaylistAlert = true }) {
                         Label("Add Playlist", systemImage: "plus")
                     }
-                }
-            }
-            .padding()
-            .background(Color(NSColor.windowBackgroundColor))
-
-            // Content
-            ZStack {
-                switch selectedTab {
-                case .library:
-                    MusicListView(songs: allSongs, playableSong: $playableSong)
-                case .playlists:
-                    NavigationStack(path: $playlistPath) {
-                        PlaylistListView(selectedPlaylist: $selectedPlaylist)
-                            .navigationDestination(for: PlaylistItem.self) { playlist in
-                                PlaylistDetailView(playlist: playlist, playableSong: $playableSong)
-                            }
+                    Button(action: { showSmartPlaylistSheet = true }) {
+                        Label("Smart Playlist", systemImage: "wand.and.stars")
                     }
-                case .download:
-                    YouTubeDownloadView()
-                case .none, .some:
-                    Text("Select an item")
                 }
             }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-            // Playing Controls
-            if playableSong != nil {
-                MusicPlayer(playableSong: $playableSong)
-                    .frame(height: 48)
-                    .padding()
-                    .background(Material.bar)
-            }
-
-            // Status Bar
-            HStack {
-                if statusManager.isBusy {
-                    ProgressView()
-                        .controlSize(.small)
-                        .scaleEffect(0.8)
+        } detail: {
+            VStack(spacing: 0) {
+                ZStack {
+                    if let item = selectedItem {
+                        switch item {
+                        case .library:
+                            MusicListView(songs: allSongs, playableSong: $playableSong)
+                                .toolbar {
+                                    ToolbarItemGroup(placement: .primaryAction) {
+                                        Button(action: refreshMetadata) {
+                                            Label("Update Metadata", systemImage: "arrow.triangle.2.circlepath")
+                                                .labelStyle(.titleAndIcon)
+                                        }
+                                        Button(action: addFolder) {
+                                            Label("Add Folder", systemImage: "folder.badge.plus")
+                                                .labelStyle(.titleAndIcon)
+                                        }
+                                    }
+                                }
+                        case .playlist(let playlist):
+                            PlaylistDetailView(playlist: playlist, playableSong: $playableSong)
+                                .id(playlist.id) // Force refresh when switching playlists
+                                .toolbar {
+                                    ToolbarItemGroup(placement: .primaryAction) {
+                                        Button(action: { showSyncSheet = true }) {
+                                            Label("Sync", systemImage: "arrow.triangle.2.circlepath")
+                                                .labelStyle(.titleAndIcon)
+                                        }
+                                        Button(action: {
+                                            playlistToRename = playlist
+                                            showRenameAlert = true
+                                        }) {
+                                            Label("Rename", systemImage: "pencil")
+                                                .labelStyle(.titleAndIcon)
+                                        }
+                                        Button(role: .destructive, action: {
+                                            modelContext.delete(playlist)
+                                            selectedItem = nil
+                                        }) {
+                                            Label("Delete", systemImage: "trash")
+                                                .labelStyle(.titleAndIcon)
+                                        }
+                                    }
+                                }
+                        case .download:
+                            YouTubeDownloadView()
+                        case .external:
+                            DeviceManagerView()
+                        }
+                    } else {
+                        Text("SELECT AN ITEM FROM THE SIDEBAR")
+                            .kyberixHeader()
+                    }
                 }
-                Text(statusManager.statusMessage)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-                Spacer()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .frame(minWidth: 600, minHeight: 400)
+                .background(Color.kyberixBlack)
+
+                // Playing Controls - Persistent at bottom of detail view
+                if playableSong != nil && showPlayer {
+                    VStack(spacing: 0) {
+                        Divider().overlay(Color.kyberixGrey)
+                        MusicPlayer(playableSong: $playableSong)
+                            .frame(height: 48)
+                            .padding()
+                            .background(Color.kyberixBlack)
+                    }
+                }
+
+                // Status Bar - Persistent at bottom of detail view
+                VStack(spacing: 0) {
+                    Divider().overlay(Color.kyberixGrey)
+                    HStack {
+                        if statusManager.isBusy {
+                            ProgressView()
+                                .controlSize(.small)
+                                .scaleEffect(0.8)
+                                .tint(Color.kyberixWhite)
+                        }
+                        Text(statusManager.statusMessage)
+                            .font(.caption)
+                            .foregroundStyle(Color.kyberixWhite)
+                        Spacer()
+                    }
+                    .frame(height: 32)
+                    .padding(.horizontal, 8)
+                    .background(Color.kyberixBlack)
+                }
             }
-            .padding(8)
-            .background(Color(NSColor.windowBackgroundColor))
         }
-        .navigationTitle(currentTitle)
+        .frame(minWidth: 900, minHeight: 650)
+        .background(Color.kyberixBlack)
+        .preferredColorScheme(.dark)
         .environmentObject(statusManager)
         .environmentObject(audioPlayerManager)
         .environmentObject(downloadManager)
+        .environmentObject(deviceManagerContext)
         .sheet(isPresented: $showSmartPlaylistSheet) {
             SmartPlaylistView()
+        }
+        .sheet(isPresented: $showSyncSheet) {
+            if case .playlist(let playlist) = selectedItem {
+                SyncView(songs: playlist.songs ?? [])
+            }
+        }
+        .playlistNameAlert(
+            isPresented: $showNewPlaylistAlert,
+            title: "New Playlist",
+            message: "Enter a name for the new playlist.",
+            initialName: "New Playlist"
+        ) { name in
+            addPlaylist(name: name)
+        }
+        .playlistNameAlert(
+            isPresented: $showRenameAlert,
+            title: "Rename Playlist",
+            message: "Enter a new name for the playlist.",
+            initialName: playlistToRename?.name ?? ""
+        ) { newName in
+            if let playlist = playlistToRename {
+                playlist.name = newName
+            }
+            playlistToRename = nil
         }
     }
 
@@ -160,50 +271,9 @@ struct ContentView: View {
         }
     }
 
-    private func addPlaylist() {
-        let newPlaylist = PlaylistItem(name: "New Playlist")
+    private func addPlaylist(name: String) {
+        let newPlaylist = PlaylistItem(name: name)
         modelContext.insert(newPlaylist)
-    }
-}
-
-struct HeaderButtonStyle: ButtonStyle {
-    var isSelected: Bool
-
-    func makeBody(configuration: Configuration) -> some View {
-        configuration.label
-            .padding(.vertical, 8)
-            .padding(.horizontal, 12)
-            .background(isSelected ? Color.accentColor.opacity(0.2) : Color.clear)
-            .cornerRadius(8)
-            .foregroundStyle(isSelected ? Color.accentColor : .primary)
-            .opacity(configuration.isPressed ? 0.8 : 1.0)
-    }
-}
-
-// MARK: - Playlist List View
-
-struct PlaylistListView: View {
-    @Query(sort: \PlaylistItem.name) private var playlists: [PlaylistItem]
-    @Binding var selectedPlaylist: PlaylistItem?
-    @Environment(\.modelContext) private var modelContext
-
-    var body: some View {
-        List(selection: $selectedPlaylist) {
-            ForEach(playlists) { playlist in
-                NavigationLink(value: playlist) {
-                    HStack {
-                        Image(systemName: playlist.isSmart ? "gearshape" : "music.note.list")
-                        Text(playlist.name)
-                    }
-                }
-                .contextMenu {
-                    Button("Delete") {
-                        modelContext.delete(playlist)
-                    }
-                }
-            }
-        }
-        // Removed toolbar and state from here as they are moved to ContentView
     }
 }
 
@@ -219,26 +289,19 @@ struct PlaylistDetailView: View {
                 MusicListView(songs: songs, playableSong: $playableSong, currentPlaylist: playlist)
             } else {
                 VStack {
-                    Image(systemName: "music.note.list")
-                        .font(.system(size: 50))
-                        .foregroundColor(.secondary)
-                    Text("Playlist is Empty")
-                        .font(.title2)
-                        .bold()
-                    Text("Add songs from the library.")
-                        .foregroundColor(.secondary)
+                    KyberixIcon(name: "music.note.list", size: 50)
+                    Text("PLAYLIST IS EMPTY")
+                        .kyberixHeader()
+                    Text("ADD SONGS FROM THE LIBRARY.")
+                        .font(.caption)
+                        .foregroundStyle(Color.kyberixGrey)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.kyberixBlack)
             }
         }
-        .navigationTitle($playlist.name)
-        .toolbar {
-            ToolbarItem {
-                NavigationLink(destination: SyncView(songs: playlist.songs ?? [])) {
-                    Label("Sync", systemImage: "arrow.triangle.2.circlepath")
-                }
-            }
-        }
+        .navigationTitle(playlist.name)
+        .background(Color.kyberixBlack)
     }
 }
 
@@ -321,8 +384,6 @@ struct SmartPlaylistView: View {
     }
 }
 
-// MARK: - YouTube Download View is now in Views/YouTubeDownloadView.swift
-
 // MARK: - Sync View
 
 struct SyncView: View {
@@ -333,54 +394,67 @@ struct SyncView: View {
     @State private var organizeByMetadata = true
     @State private var randomOrder = false
     @State private var isSyncing = false
-    // Removed local statusMessage
     @State private var progress: Double = 0
     @State private var showFileImporter = false
 
     var body: some View {
-        Form {
-            Section("Destination") {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("SYNC TO DEVICE").kyberixHeader().font(.title2)
+
+            // Destination
+            VStack(alignment: .leading, spacing: 8) {
+                Text("DESTINATION").kyberixHeader()
                 HStack {
                     Text(destinationURL?.path ?? "Select a folder")
                         .lineLimit(1)
                         .truncationMode(.middle)
+                        .kyberixBody()
                     Spacer()
-                    Button("Browse...") {
+                    KyberixButton(title: "Browse...") {
                         showFileImporter = true
                     }
                 }
+                .padding(8)
+                .background(Color.kyberixBlack)
+                .overlay(Rectangle().stroke(Color.kyberixGrey, lineWidth: 1))
             }
 
-            Section("Options") {
+            // Options
+            VStack(alignment: .leading, spacing: 8) {
                 Toggle("Organize by Artist/Album", isOn: $organizeByMetadata)
                     .onChange(of: organizeByMetadata) { _, newValue in
                         if newValue { randomOrder = false }
                     }
+                    .foregroundStyle(Color.kyberixWhite)
 
                 Toggle("Random Order (Flat Structure)", isOn: $randomOrder)
                     .disabled(organizeByMetadata)
                     .onChange(of: randomOrder) { _, newValue in
                         if newValue { organizeByMetadata = false }
                     }
+                    .foregroundStyle(Color.kyberixWhite)
 
                 if randomOrder {
-                    Text("Files will be renamed with a numerical prefix (e.g., 001_Song.mp3) to ensure random playback order on simple players.")
+                    Text("Files will be renamed with a numerical prefix to ensure random playback.")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(Color.kyberixGrey)
                 }
             }
 
             if isSyncing {
-                ProgressView("Syncing...")
+                KyberixProgressView(value: progress)
+                Text("Syncing...").kyberixBody()
             }
 
-            Button("Start Sync") {
+            KyberixButton(title: "Start Sync") {
                 startSync()
             }
             .disabled(destinationURL == nil || isSyncing)
+
+            Spacer()
         }
         .padding()
-        .navigationTitle("Sync to Device")
+        .background(Color.kyberixBlack)
         .fileImporter(
             isPresented: $showFileImporter,
             allowedContentTypes: [.folder],
