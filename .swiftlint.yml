@@ -1,0 +1,21 @@
+disabled_rules:
+  - todo
+
+opt_in_rules:
+  - empty_count
+  - empty_string
+
+included:
+  - OrMiMu
+  - OrMiMuTests
+  - OrMiMuUITests
+
+excluded:
+  - Carthage
+  - Pods
+  - fastlane
+  - .build
+  - DerivedData
+
+line_length: 120
+warning_threshold: 10
