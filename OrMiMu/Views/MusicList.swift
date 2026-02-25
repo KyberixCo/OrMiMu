@@ -78,13 +78,15 @@ struct MusicListView: View {
             TableColumn("") { song in
                 if let playableSong = playableSong, playableSong.path == song.filePath {
                     Image(systemName: "waveform")
-                        .foregroundStyle(.primary)
+                        .font(KyberixTheme.Font.body())
+                        .foregroundStyle(KyberixTheme.white)
                         .onTapGesture {
                             playSong(song)
                         }
                 } else {
-                    Image(systemName: "play.fill")
-                        .foregroundStyle(.secondary)
+                    Image(systemName: "play")
+                        .font(KyberixTheme.Font.body())
+                        .foregroundStyle(Color.gray)
                         .onTapGesture {
                             playSong(song)
                         }
@@ -92,36 +94,67 @@ struct MusicListView: View {
             }
             .width(20)
 
-            TableColumn("Title", value: \.title) { song in
+            TableColumn(value: \.title) { song in
                 EditableCell(value: song.title) { newValue in
                     updateMetadata(song: song, field: .title, value: newValue)
                 }
+            } label: {
+                Text("TITLE")
+                    .font(KyberixTheme.Font.header())
+                    .kyberixTracking()
             }
-            TableColumn("Artist", value: \.artist) { song in
+
+            TableColumn(value: \.artist) { song in
                 EditableCell(value: song.artist) { newValue in
                     updateMetadata(song: song, field: .artist, value: newValue)
                 }
+            } label: {
+                Text("ARTIST")
+                    .font(KyberixTheme.Font.header())
+                    .kyberixTracking()
             }
-            TableColumn("Album", value: \.album) { song in
+
+            TableColumn(value: \.album) { song in
                 EditableCell(value: song.album) { newValue in
                     updateMetadata(song: song, field: .album, value: newValue)
                 }
+            } label: {
+                Text("ALBUM")
+                    .font(KyberixTheme.Font.header())
+                    .kyberixTracking()
             }
-            TableColumn("Genre", value: \.genre) { song in
+
+            TableColumn(value: \.genre) { song in
                 EditableCell(value: song.genre) { newValue in
                     updateMetadata(song: song, field: .genre, value: newValue)
                 }
+            } label: {
+                Text("GENRE")
+                    .font(KyberixTheme.Font.header())
+                    .kyberixTracking()
             }
-            TableColumn("Format", value: \.fileExtension) { song in
+
+            TableColumn(value: \.fileExtension) { song in
                 Text(song.fileExtension)
+                    .font(KyberixTheme.Font.body())
                     .contentShape(Rectangle())
+            } label: {
+                Text("FMT")
+                    .font(KyberixTheme.Font.header())
+                    .kyberixTracking()
             }
-            TableColumn("Length", value: \.duration) { song in
+
+            TableColumn(value: \.duration) { song in
                 Text(formatDuration(song.duration))
+                    .font(KyberixTheme.Font.body())
                     .contentShape(Rectangle())
                     .onTapGesture(count: 2) {
                         playSong(song)
                     }
+            } label: {
+                Text("TIME")
+                    .font(KyberixTheme.Font.header())
+                    .kyberixTracking()
             }
         }
         .searchable(text: $searchText, placement: .automatic, prompt: "Search Songs")
@@ -333,7 +366,7 @@ struct EditableCell: View {
         ZStack(alignment: .leading) {
             if isEditing {
                 TextField("", text: $text)
-                    .textFieldStyle(.squareBorder)
+                    .textFieldStyle(KyberixTextFieldStyle()) // Use Kyberix Style
                     .focused($isFocused)
                     .onSubmit {
                         onCommit(text)
@@ -353,6 +386,7 @@ struct EditableCell: View {
                     }
             } else {
                 Text(value)
+                    .font(KyberixTheme.Font.body())
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
                     .onTapGesture(count: 2) {
@@ -381,28 +415,34 @@ struct EditMetadataView: View {
         Form {
             TextField("Title", text: $title)
                 .focused($focusedField, equals: .title)
+                .textFieldStyle(KyberixTextFieldStyle())
             TextField("Artist", text: $artist)
                 .focused($focusedField, equals: .artist)
+                .textFieldStyle(KyberixTextFieldStyle())
             TextField("Album", text: $album)
                 .focused($focusedField, equals: .album)
+                .textFieldStyle(KyberixTextFieldStyle())
             TextField("Genre", text: $genre)
                 .focused($focusedField, equals: .genre)
+                .textFieldStyle(KyberixTextFieldStyle())
 
             HStack {
                 Button("Cancel") {
                     dismiss()
                 }
+                .buttonStyle(KyberixButtonStyle(isFilled: false))
                 Spacer()
                 Button("Save") {
                     save()
                 }
-                .buttonStyle(.borderedProminent)
+                .buttonStyle(KyberixButtonStyle(isFilled: true))
                 .keyboardShortcut(.defaultAction)
             }
             .padding(.top)
         }
         .padding()
         .frame(minWidth: 300)
+        .background(KyberixTheme.black)
         .onAppear {
             title = song.title
             artist = song.artist
@@ -453,44 +493,50 @@ struct BulkEditMetadataView: View {
 
     var body: some View {
         Form {
-            Section("Edit Metadata for \(songs.count) items") {
+            Section(header: Text("EDIT METADATA FOR \(songs.count) ITEMS").font(KyberixTheme.Font.header()).kyberixTracking()) {
                 HStack {
                     Toggle("", isOn: $updateArtist)
                         .labelsHidden()
                     TextField("Artist", text: $artist)
                         .disabled(!updateArtist)
+                        .textFieldStyle(KyberixTextFieldStyle())
                 }
                 HStack {
                     Toggle("", isOn: $updateAlbum)
                         .labelsHidden()
                     TextField("Album", text: $album)
                         .disabled(!updateAlbum)
+                        .textFieldStyle(KyberixTextFieldStyle())
                 }
                 HStack {
                     Toggle("", isOn: $updateGenre)
                         .labelsHidden()
                     TextField("Genre", text: $genre)
                         .disabled(!updateGenre)
+                        .textFieldStyle(KyberixTextFieldStyle())
                 }
                  HStack {
                     Toggle("", isOn: $updateYear)
                         .labelsHidden()
                     TextField("Year", text: $year)
                         .disabled(!updateYear)
+                        .textFieldStyle(KyberixTextFieldStyle())
                 }
             }
 
             HStack {
                 Button("Cancel") { dismiss() }
+                    .buttonStyle(KyberixButtonStyle(isFilled: false))
                 Spacer()
                 Button("Save") { save() }
-                    .buttonStyle(.borderedProminent)
+                    .buttonStyle(KyberixButtonStyle(isFilled: true))
                     .keyboardShortcut(.defaultAction)
             }
             .padding(.top)
         }
         .padding()
         .frame(minWidth: 400)
+        .background(KyberixTheme.black)
     }
 
     func save() {

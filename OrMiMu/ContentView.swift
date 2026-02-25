@@ -48,7 +48,7 @@ struct ContentView: View {
     var body: some View {
         NavigationSplitView {
             List(selection: $selectedItem) {
-                Section("System") {
+                Section(header: Text("SYSTEM").font(KyberixTheme.Font.header()).kyberixTracking()) {
                     NavigationLink(value: SidebarItem.library) {
                         Label("Library", systemImage: "music.note")
                     }
@@ -59,7 +59,7 @@ struct ContentView: View {
                         Label("Devices", systemImage: "externaldrive")
                     }
                 }
-                Section("Playlists") {
+                Section(header: Text("PLAYLISTS").font(KyberixTheme.Font.header()).kyberixTracking()) {
                     ForEach(playlists) { playlist in
                         NavigationLink(value: SidebarItem.playlist(playlist)) {
                             Label(playlist.name, systemImage: playlist.isSmart ? "gearshape" : "music.note.list")
@@ -151,33 +151,39 @@ struct ContentView: View {
                 // Playing Controls - Persistent at bottom of detail view
                 if playableSong != nil {
                     VStack(spacing: 0) {
-                        Divider()
+                        Rectangle()
+                            .fill(KyberixTheme.divider)
+                            .frame(height: 1)
                         MusicPlayer(playableSong: $playableSong)
                             .frame(height: 48)
                             .padding()
-                            .background(Material.bar)
+                            .background(KyberixTheme.black)
                     }
                 }
 
                 // Status Bar - Persistent at bottom of detail view
                 VStack(spacing: 0) {
-                    Divider()
+                    Rectangle()
+                        .fill(KyberixTheme.divider)
+                        .frame(height: 1)
                     HStack {
                         if statusManager.isBusy {
                             ProgressView()
                                 .controlSize(.small)
                                 .scaleEffect(0.8)
+                                .tint(KyberixTheme.white)
                         }
                         Text(statusManager.statusMessage)
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .font(KyberixTheme.Font.caption())
+                            .foregroundStyle(KyberixTheme.white)
                         Spacer()
                     }
                     .frame(height: 32)
                     .padding(.horizontal, 8)
-                    .background(Color(NSColor.windowBackgroundColor))
+                    .background(KyberixTheme.black)
                 }
             }
+            .background(KyberixTheme.black)
         }
         .frame(minWidth: 900, minHeight: 650)
         .environmentObject(statusManager)
