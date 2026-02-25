@@ -42,6 +42,9 @@ targets:
       - path: OrMiMuTests
     dependencies:
       - target: OrMiMu
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      PRODUCT_BUNDLE_IDENTIFIER: com.kyberix.OrMiMuTests
   OrMiMuUITests:
     type: bundle.ui-testing
     platform: macOS
@@ -49,3 +52,6 @@ targets:
       - path: OrMiMuUITests
     dependencies:
       - target: OrMiMu
+    settings:
+      GENERATE_INFOPLIST_FILE: YES
+      PRODUCT_BUNDLE_IDENTIFIER: com.kyberix.OrMiMuUITests
