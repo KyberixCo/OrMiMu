@@ -149,27 +149,27 @@ struct FailedDownloadsView: View {
             .padding()
 
             Table(items) {
-                TableColumn { item in
+                TableColumn(content: { item in
                     Text(item.title)
-                } label: {
+                }, label: {
                     Text("TITLE")
                         .font(KyberixTheme.Font.header())
                         .kyberixTracking()
-                }
-                TableColumn { item in
+                })
+                TableColumn(content: { item in
                     Text(item.url)
-                } label: {
+                }, label: {
                     Text("URL")
                         .font(KyberixTheme.Font.header())
                         .kyberixTracking()
-                }
-                TableColumn { item in
+                })
+                TableColumn(content: { item in
                     Text(item.error)
-                } label: {
+                }, label: {
                     Text("ERROR")
                         .font(KyberixTheme.Font.header())
                         .kyberixTracking()
-                }
+                })
             }
 
             HStack {
