@@ -9,7 +9,16 @@ on:
 jobs:
   build:
     runs-on: macos-latest
+
     steps:
     - uses: actions/checkout@v4
-    - name: Build
-      run: xcodebuild -scheme OrMiMu -destination 'platform=macOS' clean build
+
+    - name: Install dependencies
+      run: |
+        brew install xcodegen swiftlint
+
+    - name: Generate Project
+      run: xcodegen generate
+
+    - name: Build and Test
+      run: xcodebuild test -scheme OrMiMu -destination 'platform=macOS'
