@@ -149,21 +149,21 @@ struct FailedDownloadsView: View {
             .padding()
 
             Table(items) {
-                TableColumn(value: \.title) { item in
+                TableColumn { item in
                     Text(item.title)
                 } label: {
                     Text("TITLE")
                         .font(KyberixTheme.Font.header())
                         .kyberixTracking()
                 }
-                TableColumn(value: \.url) { item in
+                TableColumn { item in
                     Text(item.url)
                 } label: {
                     Text("URL")
                         .font(KyberixTheme.Font.header())
                         .kyberixTracking()
                 }
-                TableColumn(value: \.error) { item in
+                TableColumn { item in
                     Text(item.error)
                 } label: {
                     Text("ERROR")
