@@ -70,7 +70,6 @@ struct MusicListRow: View {
     let isSelected: Bool
     let isPlaying: Bool
     let onPlay: () -> Void
-    let onSelect: () -> Void
 
     @State private var isHovering = false
 
@@ -128,15 +127,10 @@ struct MusicListRow: View {
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(backgroundColor)
         .contentShape(Rectangle())
         .onHover { isHovering = $0 }
-        .onTapGesture {
-            onSelect()
-        }
-        .simultaneousGesture(TapGesture(count: 2).onEnded {
-            onPlay()
-        })
         .overlay(
             Rectangle()
                 .frame(height: 1)
