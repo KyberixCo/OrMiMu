@@ -158,8 +158,7 @@ struct FailedDownloadsView: View {
     var items: [DownloadManager.FailedDownloadItem]
     @Environment(\.dismiss) private var dismiss
 
-    // Add sorting state for Table
-    @State private var sortOrder = [KeyPathComparator(\DownloadManager.FailedDownloadItem.title)]
+    // Removing sortOrder state as we are simplifying the Table init to guarantee compilation
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -172,16 +171,16 @@ struct FailedDownloadsView: View {
             }
             .padding()
 
-            Table(items, sortOrder: $sortOrder) {
-                TableColumn("TITLE", value: \.title) { item in
+            Table(items) {
+                TableColumn("TITLE") { item in
                     Text(item.title).kyberixBody()
                 }
 
-                TableColumn("URL", value: \.url) { item in
+                TableColumn("URL") { item in
                     Text(item.url).kyberixBody()
                 }
 
-                TableColumn("ERROR", value: \.error) { item in
+                TableColumn("ERROR") { item in
                     Text(item.error).kyberixBody()
                 }
             }
