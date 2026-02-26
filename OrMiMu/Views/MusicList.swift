@@ -75,56 +75,77 @@ struct MusicListView: View {
 
     var body: some View {
         Table(sortedSongs, selection: $selectedSongIDs, sortOrder: $sortOrder) {
-            TableColumn("") { song in
+            TableColumn(value: \.title) { song in // Using title just for sorting key logic even if content differs slightly
                 if let playableSong = playableSong, playableSong.path == song.filePath {
-                    Image(systemName: "waveform")
-                        .foregroundStyle(.primary)
+                    KyberixIcon(name: "waveform")
                         .onTapGesture {
                             playSong(song)
                         }
                 } else {
-                    Image(systemName: "play.fill")
-                        .foregroundStyle(.secondary)
+                    KyberixIcon(name: "play")
                         .onTapGesture {
                             playSong(song)
                         }
                 }
+            } label: {
+                Text("").kyberixHeader()
             }
             .width(20)
 
-            TableColumn("Title", value: \.title) { song in
+            TableColumn(value: \.title) { song in
                 EditableCell(value: song.title) { newValue in
                     updateMetadata(song: song, field: .title, value: newValue)
                 }
+            } label: {
+                Text("TITLE").kyberixHeader()
             }
-            TableColumn("Artist", value: \.artist) { song in
+
+            TableColumn(value: \.artist) { song in
                 EditableCell(value: song.artist) { newValue in
                     updateMetadata(song: song, field: .artist, value: newValue)
                 }
+            } label: {
+                Text("ARTIST").kyberixHeader()
             }
-            TableColumn("Album", value: \.album) { song in
+
+            TableColumn(value: \.album) { song in
                 EditableCell(value: song.album) { newValue in
                     updateMetadata(song: song, field: .album, value: newValue)
                 }
+            } label: {
+                Text("ALBUM").kyberixHeader()
             }
-            TableColumn("Genre", value: \.genre) { song in
+
+            TableColumn(value: \.genre) { song in
                 EditableCell(value: song.genre) { newValue in
                     updateMetadata(song: song, field: .genre, value: newValue)
                 }
+            } label: {
+                Text("GENRE").kyberixHeader()
             }
-            TableColumn("Format", value: \.fileExtension) { song in
-                Text(song.fileExtension)
+
+            TableColumn(value: \.fileExtension) { song in
+                Text(song.fileExtension.uppercased())
+                    .kyberixBody()
                     .contentShape(Rectangle())
+            } label: {
+                Text("FORMAT").kyberixHeader()
             }
-            TableColumn("Length", value: \.duration) { song in
+
+            TableColumn(value: \.duration) { song in
                 Text(formatDuration(song.duration))
+                    .kyberixBody()
                     .contentShape(Rectangle())
                     .onTapGesture(count: 2) {
                         playSong(song)
                     }
+            } label: {
+                Text("LENGTH").kyberixHeader()
             }
         }
-        .searchable(text: $searchText, placement: .automatic, prompt: "Search Songs")
+        .scrollContentBackground(.hidden)
+        .background(Color.kyberixBlack)
+        .searchable(text: $searchText, placement: .automatic, prompt: "SEARCH SONGS")
         .onChange(of: sortOrder) { _, newOrder in
             saveSortOrder(newOrder)
         }
@@ -136,7 +157,7 @@ struct MusicListView: View {
                 Button("Edit Metadata") {
                     let selectedSongs = sortedSongs.filter { selectedIDs.contains($0.id) }
                     if selectedSongs.count == 1, let first = selectedSongs.first {
-                        editSong(first, field: .title) // Default to title for single edit sheet if needed
+                        editSong(first, field: .title)
                     } else if selectedSongs.count > 1 {
                         bulkEditContext = BulkEditContext(songs: selectedSongs)
                     }
@@ -206,7 +227,6 @@ struct MusicListView: View {
     }
     
     private func updateMetadata(song: SongItem, field: SongField, value: String) {
-        // Optimistic UI update
         switch field {
         case .title: song.title = value
         case .artist: song.artist = value
@@ -256,7 +276,6 @@ struct MusicListView: View {
     }
 
     private func playSong(_ song: SongItem) {
-        // Use sortedSongs for correct queue order
         let queueItems = sortedSongs.map { (url: URL(fileURLWithPath: $0.filePath), title: $0.title, artist: $0.artist) }
         if let index = sortedSongs.firstIndex(where: { $0.id == song.id }) {
             audioPlayerManager.setQueue(queueItems, startAtIndex: index)
@@ -285,9 +304,7 @@ struct MusicListView: View {
         let defaultFormat = UserDefaults.standard.string(forKey: "downloadFormat") ?? "mp3"
         let defaultBitrate = UserDefaults.standard.string(forKey: "downloadBitrate") ?? "256"
 
-        // Prevent unnecessary conversion if already same format (rough check)
         if song.fileExtension.lowercased() == defaultFormat.lowercased() {
-             // Maybe show alert? For now just skip.
              return
         }
 
@@ -299,7 +316,6 @@ struct MusicListView: View {
                     bitrate: defaultBitrate,
                     statusManager: statusManager
                 )
-                // Ensure model context saves changes to filePath
                 try? modelContext.save()
             } catch {
                 statusManager.statusMessage = "Conversion failed: \(error.localizedDescription)"
@@ -333,7 +349,7 @@ struct EditableCell: View {
         ZStack(alignment: .leading) {
             if isEditing {
                 TextField("", text: $text)
-                    .textFieldStyle(.squareBorder)
+                    .textFieldStyle(KyberixTextFieldStyle())
                     .focused($isFocused)
                     .onSubmit {
                         onCommit(text)
@@ -345,8 +361,6 @@ struct EditableCell: View {
                     }
                     .onChange(of: isFocused) { _, focused in
                         if !focused && isEditing {
-                            // Optionally commit on focus lost, or just cancel.
-                            // Standard behavior is often commit on click-away for table cells.
                             onCommit(text)
                             isEditing = false
                         }
@@ -355,6 +369,7 @@ struct EditableCell: View {
                 Text(value)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .contentShape(Rectangle())
+                    .kyberixBody()
                     .onTapGesture(count: 2) {
                         isEditing = true
                     }
@@ -369,7 +384,6 @@ struct EditMetadataView: View {
 
     @Environment(\.dismiss) private var dismiss
 
-    // Using separate state to allow cancel
     @State private var title: String = ""
     @State private var artist: String = ""
     @State private var album: String = ""
@@ -378,31 +392,45 @@ struct EditMetadataView: View {
     @FocusState private var focusedField: SongField?
 
     var body: some View {
-        Form {
-            TextField("Title", text: $title)
-                .focused($focusedField, equals: .title)
-            TextField("Artist", text: $artist)
-                .focused($focusedField, equals: .artist)
-            TextField("Album", text: $album)
-                .focused($focusedField, equals: .album)
-            TextField("Genre", text: $genre)
-                .focused($focusedField, equals: .genre)
+        VStack(alignment: .leading, spacing: 16) {
+            Text("EDIT METADATA").kyberixHeader().font(.title3)
+
+            VStack(alignment: .leading) {
+                Text("TITLE").kyberixHeader()
+                KyberixTextField(title: "Title", text: $title)
+                    .focused($focusedField, equals: .title)
+            }
+            VStack(alignment: .leading) {
+                Text("ARTIST").kyberixHeader()
+                KyberixTextField(title: "Artist", text: $artist)
+                    .focused($focusedField, equals: .artist)
+            }
+            VStack(alignment: .leading) {
+                Text("ALBUM").kyberixHeader()
+                KyberixTextField(title: "Album", text: $album)
+                    .focused($focusedField, equals: .album)
+            }
+            VStack(alignment: .leading) {
+                Text("GENRE").kyberixHeader()
+                KyberixTextField(title: "Genre", text: $genre)
+                    .focused($focusedField, equals: .genre)
+            }
 
             HStack {
-                Button("Cancel") {
+                KyberixButton(title: "Cancel") {
                     dismiss()
                 }
                 Spacer()
-                Button("Save") {
+                KyberixButton(title: "Save") {
                     save()
                 }
-                .buttonStyle(.borderedProminent)
                 .keyboardShortcut(.defaultAction)
             }
             .padding(.top)
         }
         .padding()
         .frame(minWidth: 300)
+        .background(Color.kyberixBlack)
         .onAppear {
             title = song.title
             artist = song.artist
@@ -445,56 +473,66 @@ struct BulkEditMetadataView: View {
     @State private var genre: String = ""
     @State private var year: String = ""
 
-    // Toggles to know if we should update this field
     @State private var updateArtist = false
     @State private var updateAlbum = false
     @State private var updateGenre = false
     @State private var updateYear = false
 
     var body: some View {
-        Form {
-            Section("Edit Metadata for \(songs.count) items") {
+        VStack(alignment: .leading, spacing: 16) {
+            Text("EDIT METADATA FOR \(songs.count) ITEMS").kyberixHeader().font(.title3)
+
+            VStack(alignment: .leading) {
                 HStack {
-                    Toggle("", isOn: $updateArtist)
-                        .labelsHidden()
-                    TextField("Artist", text: $artist)
-                        .disabled(!updateArtist)
+                    Toggle("", isOn: $updateArtist).labelsHidden()
+                    Text("ARTIST").kyberixHeader()
                 }
-                HStack {
-                    Toggle("", isOn: $updateAlbum)
-                        .labelsHidden()
-                    TextField("Album", text: $album)
-                        .disabled(!updateAlbum)
-                }
-                HStack {
-                    Toggle("", isOn: $updateGenre)
-                        .labelsHidden()
-                    TextField("Genre", text: $genre)
-                        .disabled(!updateGenre)
-                }
-                 HStack {
-                    Toggle("", isOn: $updateYear)
-                        .labelsHidden()
-                    TextField("Year", text: $year)
-                        .disabled(!updateYear)
-                }
+                KyberixTextField(title: "Artist", text: $artist)
+                    .disabled(!updateArtist)
             }
 
+            VStack(alignment: .leading) {
+                HStack {
+                    Toggle("", isOn: $updateAlbum).labelsHidden()
+                    Text("ALBUM").kyberixHeader()
+                }
+                KyberixTextField(title: "Album", text: $album)
+                    .disabled(!updateAlbum)
+            }
+
+            VStack(alignment: .leading) {
+                HStack {
+                    Toggle("", isOn: $updateGenre).labelsHidden()
+                    Text("GENRE").kyberixHeader()
+                }
+                KyberixTextField(title: "Genre", text: $genre)
+                    .disabled(!updateGenre)
+            }
+
+            VStack(alignment: .leading) {
+                HStack {
+                    Toggle("", isOn: $updateYear).labelsHidden()
+                    Text("YEAR").kyberixHeader()
+                }
+                KyberixTextField(title: "Year", text: $year)
+                    .disabled(!updateYear)
+            }
+
+
             HStack {
-                Button("Cancel") { dismiss() }
+                KyberixButton(title: "Cancel") { dismiss() }
                 Spacer()
-                Button("Save") { save() }
-                    .buttonStyle(.borderedProminent)
+                KyberixButton(title: "Save") { save() }
                     .keyboardShortcut(.defaultAction)
             }
             .padding(.top)
         }
         .padding()
         .frame(minWidth: 400)
+        .background(Color.kyberixBlack)
     }
 
     func save() {
-        // Prepare data before task
         let newArtist = updateArtist ? artist : ""
         let newAlbum = updateAlbum ? album : ""
         let newGenre = updateGenre ? genre : ""
@@ -514,13 +552,11 @@ struct BulkEditMetadataView: View {
             }
 
             for (index, song) in songs.enumerated() {
-                // Determine current values inside loop as fallback
                 let finalArtist = shouldUpdateArtist ? newArtist : song.artist
                 let finalAlbum = shouldUpdateAlbum ? newAlbum : song.album
                 let finalGenre = shouldUpdateGenre ? newGenre : song.genre
                 let finalYear = shouldUpdateYear ? newYear : song.year
 
-                // Only call update if something changed for this song
                 if shouldUpdateArtist || shouldUpdateAlbum || shouldUpdateGenre || shouldUpdateYear {
                      try? await MetadataService.updateMetadata(
                         filePath: song.filePath,
@@ -531,14 +567,12 @@ struct BulkEditMetadataView: View {
                         year: finalYear
                     )
 
-                     // Optimistic UI updates must happen on main actor
                      await MainActor.run {
                          if shouldUpdateArtist { song.artist = finalArtist }
                          if shouldUpdateAlbum { song.album = finalAlbum }
                          if shouldUpdateGenre { song.genre = finalGenre }
                          if shouldUpdateYear { song.year = finalYear }
 
-                         // Update progress
                          let progress = Double(index + 1) / Double(totalCount)
                          statusManager.progress = progress
                          statusManager.statusMessage = "Updating metadata (\(index + 1)/\(totalCount))..."

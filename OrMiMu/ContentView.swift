@@ -50,19 +50,33 @@ struct ContentView: View {
             List(selection: $selectedItem) {
                 Section("System") {
                     NavigationLink(value: SidebarItem.library) {
-                        Label("Library", systemImage: "music.note")
+                        HStack {
+                            KyberixIcon(name: "music.note")
+                            Text("Library").kyberixBody()
+                        }
                     }
                     NavigationLink(value: SidebarItem.download) {
-                        Label("Downloads", systemImage: "arrow.down.circle")
+                        HStack {
+                            KyberixIcon(name: "arrow.down.circle")
+                            Text("Downloads").kyberixBody()
+                        }
                     }
                     NavigationLink(value: SidebarItem.external) {
-                        Label("Devices", systemImage: "externaldrive")
+                        HStack {
+                            KyberixIcon(name: "externaldrive")
+                            Text("Devices").kyberixBody()
+                        }
                     }
                 }
+                .listRowBackground(Color.kyberixBlack)
+
                 Section("Playlists") {
                     ForEach(playlists) { playlist in
                         NavigationLink(value: SidebarItem.playlist(playlist)) {
-                            Label(playlist.name, systemImage: playlist.isSmart ? "gearshape" : "music.note.list")
+                            HStack {
+                                KyberixIcon(name: playlist.isSmart ? "gearshape" : "music.note.list")
+                                Text(playlist.name).kyberixBody()
+                            }
                         }
                         .contextMenu {
                             Button("Rename") {
@@ -78,9 +92,12 @@ struct ContentView: View {
                         }
                     }
                 }
+                .listRowBackground(Color.kyberixBlack)
 
             }
             .navigationTitle("OrMiMu")
+            .scrollContentBackground(.hidden)
+            .background(Color.kyberixBlack)
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
                     Button(action: { showNewPlaylistAlert = true }) {
@@ -141,45 +158,49 @@ struct ContentView: View {
                             DeviceManagerView()
                         }
                     } else {
-                        Text("Select an item from the sidebar")
-                            .foregroundStyle(.secondary)
+                        Text("SELECT AN ITEM FROM THE SIDEBAR")
+                            .kyberixHeader()
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .frame(minWidth: 600, minHeight: 400)
+                .background(Color.kyberixBlack)
 
                 // Playing Controls - Persistent at bottom of detail view
                 if playableSong != nil {
                     VStack(spacing: 0) {
-                        Divider()
+                        Divider().overlay(Color.kyberixGrey)
                         MusicPlayer(playableSong: $playableSong)
                             .frame(height: 48)
                             .padding()
-                            .background(Material.bar)
+                            .background(Color.kyberixBlack)
                     }
                 }
 
                 // Status Bar - Persistent at bottom of detail view
                 VStack(spacing: 0) {
-                    Divider()
+                    Divider().overlay(Color.kyberixGrey)
                     HStack {
                         if statusManager.isBusy {
                             ProgressView()
                                 .controlSize(.small)
                                 .scaleEffect(0.8)
+                                .tint(Color.kyberixWhite)
                         }
                         Text(statusManager.statusMessage)
                             .font(.caption)
-                            .foregroundStyle(.secondary)
+                            .foregroundStyle(Color.kyberixWhite)
                         Spacer()
                     }
                     .frame(height: 32)
                     .padding(.horizontal, 8)
-                    .background(Color(NSColor.windowBackgroundColor))
+                    .background(Color.kyberixBlack)
                 }
             }
         }
         .frame(minWidth: 900, minHeight: 650)
+        .background(Color.kyberixBlack)
+        .preferredColorScheme(.dark)
         .environmentObject(statusManager)
         .environmentObject(audioPlayerManager)
         .environmentObject(downloadManager)
@@ -255,19 +276,19 @@ struct PlaylistDetailView: View {
                 MusicListView(songs: songs, playableSong: $playableSong, currentPlaylist: playlist)
             } else {
                 VStack {
-                    Image(systemName: "music.note.list")
-                        .font(.system(size: 50))
-                        .foregroundColor(.secondary)
-                    Text("Playlist is Empty")
-                        .font(.title2)
-                        .bold()
-                    Text("Add songs from the library.")
-                        .foregroundColor(.secondary)
+                    KyberixIcon(name: "music.note.list", size: 50)
+                    Text("PLAYLIST IS EMPTY")
+                        .kyberixHeader()
+                    Text("ADD SONGS FROM THE LIBRARY.")
+                        .font(.caption)
+                        .foregroundStyle(Color.kyberixGrey)
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.kyberixBlack)
             }
         }
         .navigationTitle(playlist.name)
+        .background(Color.kyberixBlack)
     }
 }
 
@@ -360,54 +381,67 @@ struct SyncView: View {
     @State private var organizeByMetadata = true
     @State private var randomOrder = false
     @State private var isSyncing = false
-    // Removed local statusMessage
     @State private var progress: Double = 0
     @State private var showFileImporter = false
 
     var body: some View {
-        Form {
-            Section("Destination") {
+        VStack(alignment: .leading, spacing: 20) {
+            Text("SYNC TO DEVICE").kyberixHeader().font(.title2)
+
+            // Destination
+            VStack(alignment: .leading, spacing: 8) {
+                Text("DESTINATION").kyberixHeader()
                 HStack {
                     Text(destinationURL?.path ?? "Select a folder")
                         .lineLimit(1)
                         .truncationMode(.middle)
+                        .kyberixBody()
                     Spacer()
-                    Button("Browse...") {
+                    KyberixButton(title: "Browse...") {
                         showFileImporter = true
                     }
                 }
+                .padding(8)
+                .background(Color.kyberixBlack)
+                .overlay(Rectangle().stroke(Color.kyberixGrey, lineWidth: 1))
             }
 
-            Section("Options") {
+            // Options
+            VStack(alignment: .leading, spacing: 8) {
                 Toggle("Organize by Artist/Album", isOn: $organizeByMetadata)
                     .onChange(of: organizeByMetadata) { _, newValue in
                         if newValue { randomOrder = false }
                     }
+                    .foregroundStyle(Color.kyberixWhite)
 
                 Toggle("Random Order (Flat Structure)", isOn: $randomOrder)
                     .disabled(organizeByMetadata)
                     .onChange(of: randomOrder) { _, newValue in
                         if newValue { organizeByMetadata = false }
                     }
+                    .foregroundStyle(Color.kyberixWhite)
 
                 if randomOrder {
-                    Text("Files will be renamed with a numerical prefix (e.g., 001_Song.mp3) to ensure random playback order on simple players.")
+                    Text("Files will be renamed with a numerical prefix to ensure random playback.")
                         .font(.caption)
-                        .foregroundColor(.secondary)
+                        .foregroundStyle(Color.kyberixGrey)
                 }
             }
 
             if isSyncing {
-                ProgressView("Syncing...")
+                KyberixProgressView(value: progress)
+                Text("Syncing...").kyberixBody()
             }
 
-            Button("Start Sync") {
+            KyberixButton(title: "Start Sync") {
                 startSync()
             }
             .disabled(destinationURL == nil || isSyncing)
+
+            Spacer()
         }
         .padding()
-        .navigationTitle("Sync to Device")
+        .background(Color.kyberixBlack)
         .fileImporter(
             isPresented: $showFileImporter,
             allowedContentTypes: [.folder],

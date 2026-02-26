@@ -15,99 +15,136 @@ struct YouTubeDownloadView: View {
     @State private var showFailedDownloads = false
 
     var body: some View {
-        Form {
-            if !downloadManager.dependenciesInstalled {
-                Section("Dependencies") {
-                    if downloadManager.isInstallingDependencies {
-                        ProgressView("Installing components (yt-dlp & ffmpeg)...")
-                    } else {
-                        Button("Install Dependencies") {
-                            downloadManager.installDependencies(statusManager: statusManager)
+        ScrollView {
+            VStack(alignment: .leading, spacing: 24) {
+                // Title
+                Text("DOWNLOADS").kyberixHeader().font(.title2)
+
+                if !downloadManager.dependenciesInstalled {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("DEPENDENCIES").kyberixHeader()
+                        if downloadManager.isInstallingDependencies {
+                            KyberixProgressView(value: 0.5)
+                            Text("Installing components (yt-dlp & ffmpeg)...").kyberixBody()
+                        } else {
+                            KyberixButton(title: "Install Dependencies") {
+                                downloadManager.installDependencies(statusManager: statusManager)
+                            }
                         }
                     }
+                    .padding()
+                    .border(Color.kyberixGrey, width: 1)
                 }
-            }
 
-            Section("Video URL") {
-                TextField("https://...", text: $downloadManager.urlString)
-            }
-
-            Section("Settings") {
-                Picker("Format", selection: $downloadManager.selectedFormat) {
-                    ForEach(downloadManager.formats, id: \.self) { format in
-                        Text(format.uppercased()).tag(format)
-                    }
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("VIDEO URL").kyberixHeader()
+                    KyberixTextField(title: "https://...", text: $downloadManager.urlString)
                 }
-                .pickerStyle(MenuPickerStyle())
 
-                if downloadManager.selectedFormat == "mp3" || downloadManager.selectedFormat == "m4a" {
-                    Picker("Bitrate (kbps)", selection: $downloadManager.selectedBitrate) {
-                        ForEach(downloadManager.bitrates, id: \.self) { bitrate in
-                            Text(bitrate).tag(bitrate)
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("SETTINGS").kyberixHeader()
+                    HStack {
+                        Picker("Format", selection: $downloadManager.selectedFormat) {
+                            ForEach(downloadManager.formats, id: \.self) { format in
+                                Text(format.uppercased()).tag(format)
+                            }
                         }
-                    }
-                    .pickerStyle(MenuPickerStyle())
-                }
-            }
+                        .labelsHidden()
+                        .frame(width: 100)
+                        .accentColor(Color.kyberixWhite)
 
-            Section("Metadata Override (Optional)") {
-                TextField("Artist", text: $downloadManager.artist)
-                TextField("Album", text: $downloadManager.album)
-                TextField("Genre", text: $downloadManager.genre)
-                TextField("Year", text: $downloadManager.year)
-            }
-
-            if downloadManager.isDownloading {
-                VStack(spacing: 8) {
-                    ProgressView(value: statusManager.progress)
-                    Text(statusManager.statusDetail.isEmpty ? "Downloading..." : statusManager.statusDetail)
-                        .font(.caption)
-
-                    Button("Stop Download") {
-                        downloadManager.cancelDownload(statusManager: statusManager)
-                    }
-                    .buttonStyle(.bordered)
-                }
-            } else {
-                HStack {
-                    Button("Download") {
-                        downloadManager.startDownload(statusManager: statusManager, modelContext: modelContext)
-                    }
-                    .disabled(downloadManager.urlString.isEmpty || !downloadManager.dependenciesInstalled)
-
-                    if !downloadManager.failedDownloads.isEmpty {
+                        if downloadManager.selectedFormat == "mp3" || downloadManager.selectedFormat == "m4a" {
+                            Picker("Bitrate", selection: $downloadManager.selectedBitrate) {
+                                ForEach(downloadManager.bitrates, id: \.self) { bitrate in
+                                    Text(bitrate).tag(bitrate)
+                                }
+                            }
+                            .labelsHidden()
+                            .frame(width: 100)
+                            .accentColor(Color.kyberixWhite)
+                        }
                         Spacer()
-                        Button("Show Failed Items (\(downloadManager.failedDownloads.count))") {
-                            showFailedDownloads = true
-                        }
-                        .foregroundStyle(.red)
                     }
                 }
-            }
 
-            if !statusManager.logOutput.isEmpty {
-                Section("Process Log") {
-                    ScrollViewReader { proxy in
-                        ScrollView {
-                            Text(statusManager.logOutput)
-                                .font(.system(.caption, design: .monospaced))
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(4)
-                                .id("bottom")
+                VStack(alignment: .leading, spacing: 16) {
+                    Text("METADATA OVERRIDE (OPTIONAL)").kyberixHeader()
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("ARTIST").kyberixHeader().font(.caption2)
+                        KyberixTextField(title: "Artist", text: $downloadManager.artist)
+                    }
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("ALBUM").kyberixHeader().font(.caption2)
+                        KyberixTextField(title: "Album", text: $downloadManager.album)
+                    }
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("GENRE").kyberixHeader().font(.caption2)
+                        KyberixTextField(title: "Genre", text: $downloadManager.genre)
+                    }
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("YEAR").kyberixHeader().font(.caption2)
+                        KyberixTextField(title: "Year", text: $downloadManager.year)
+                    }
+                }
+
+                if downloadManager.isDownloading {
+                    VStack(spacing: 8) {
+                        KyberixProgressView(value: statusManager.progress)
+                        Text(statusManager.statusDetail.isEmpty ? "DOWNLOADING..." : statusManager.statusDetail.uppercased())
+                            .font(.caption)
+                            .kyberixBody()
+
+                        KyberixButton(title: "Stop Download") {
+                            downloadManager.cancelDownload(statusManager: statusManager)
                         }
-                        .frame(height: 150)
-                        .background(Color(nsColor: .textBackgroundColor))
-                        .cornerRadius(8)
-                        .onChange(of: statusManager.logOutput) { _ in
-                            withAnimation {
-                                proxy.scrollTo("bottom", anchor: .bottom)
+                    }
+                } else {
+                    HStack {
+                        KyberixButton(title: "Download") {
+                            downloadManager.startDownload(statusManager: statusManager, modelContext: modelContext)
+                        }
+                        .disabled(downloadManager.urlString.isEmpty || !downloadManager.dependenciesInstalled)
+
+                        if !downloadManager.failedDownloads.isEmpty {
+                            Spacer()
+                            Button("Show Failed Items (\(downloadManager.failedDownloads.count))") {
+                                showFailedDownloads = true
+                            }
+                            .foregroundStyle(.white)
+                            .buttonStyle(.plain)
+                        }
+                    }
+                }
+
+                if !statusManager.logOutput.isEmpty {
+                    VStack(alignment: .leading, spacing: 8) {
+                        Text("PROCESS LOG").kyberixHeader()
+                        ScrollViewReader { proxy in
+                            ScrollView {
+                                Text(statusManager.logOutput)
+                                    .font(.system(.caption, design: .monospaced))
+                                    .foregroundStyle(Color.kyberixWhite)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                    .padding(4)
+                                    .id("bottom")
+                            }
+                            .frame(height: 150)
+                            .background(Color.kyberixBlack)
+                            .border(Color.kyberixGrey, width: 1)
+                            .onChange(of: statusManager.logOutput) { _, _ in
+                                withAnimation {
+                                    proxy.scrollTo("bottom", anchor: .bottom)
+                                }
                             }
                         }
                     }
                 }
+
+                Spacer()
             }
+            .padding()
         }
-        .padding()
+        .background(Color.kyberixBlack)
         .onAppear {
             downloadManager.checkDependencies()
         }
@@ -124,30 +161,32 @@ struct FailedDownloadsView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Text("Failed Downloads")
-                    .font(.headline)
+                Text("FAILED DOWNLOADS").kyberixHeader().font(.headline)
                 Spacer()
-                Button("Close") {
+                KyberixButton(title: "Close") {
                     dismiss()
                 }
             }
             .padding()
 
             Table(items) {
-                TableColumn("Title", value: \.title)
-                TableColumn("URL", value: \.url)
-                TableColumn("Error", value: \.error)
+                TableColumn(content: { item in Text(item.title).kyberixBody() }, label: { Text("TITLE").kyberixHeader() })
+                TableColumn(content: { item in Text(item.url).kyberixBody() }, label: { Text("URL").kyberixHeader() })
+                TableColumn(content: { item in Text(item.error).kyberixBody() }, label: { Text("ERROR").kyberixHeader() })
             }
+            .scrollContentBackground(.hidden)
+            .background(Color.kyberixBlack)
 
             HStack {
                 Spacer()
-                Button("Download CSV") {
+                KyberixButton(title: "Download CSV") {
                     saveCSV()
                 }
             }
             .padding()
         }
         .frame(minWidth: 500, minHeight: 300)
+        .background(Color.kyberixBlack)
     }
 
     private func saveCSV() {
