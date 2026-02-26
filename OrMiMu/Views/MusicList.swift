@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import AppKit
 
 enum SongField {
     case title, artist, album, genre
@@ -25,26 +26,6 @@ enum SongField {
 struct BulkEditContext: Identifiable {
     let id = UUID()
     let songs: [SongItem]
-}
-
-struct PlayButtonCell: View {
-    let song: SongItem
-    let playableSong: URL?
-    let playAction: (SongItem) -> Void
-
-    var body: some View {
-        if let playableSong = playableSong, playableSong.path == song.filePath {
-            KyberixIcon(name: "waveform")
-                .onTapGesture {
-                    playAction(song)
-                }
-        } else {
-            KyberixIcon(name: "play")
-                .onTapGesture {
-                    playAction(song)
-                }
-        }
-    }
 }
 
 struct MusicListView: View {
@@ -93,71 +74,34 @@ struct MusicListView: View {
         return filteredSongs.sorted(using: sortOrder)
     }
 
-    // MARK: - Table Columns (extracted to help the type-checker)
-
-    @TableColumnBuilder<SongItem, KeyPathComparator<SongItem>>
-    private var tableColumns: some TableColumnContent<SongItem, KeyPathComparator<SongItem>> {
-        // Play button — not sortable, so no `value:` key path
-        TableColumn("") { song in
-            PlayButtonCell(song: song, playableSong: playableSong, playAction: playSong)
-        }
-        .width(20)
-
-        TableColumn("TITLE", value: \.title) { song in
-            EditableCell(value: song.title) { newValue in
-                updateMetadata(song: song, field: .title, value: newValue)
-            }
-        }
-
-        TableColumn("ARTIST", value: \.artist) { song in
-            EditableCell(value: song.artist) { newValue in
-                updateMetadata(song: song, field: .artist, value: newValue)
-            }
-        }
-
-        TableColumn("ALBUM", value: \.album) { song in
-            EditableCell(value: song.album) { newValue in
-                updateMetadata(song: song, field: .album, value: newValue)
-            }
-        }
-
-        TableColumn("GENRE", value: \.genre) { song in
-            EditableCell(value: song.genre) { newValue in
-                updateMetadata(song: song, field: .genre, value: newValue)
-            }
-        }
-
-        TableColumn("FORMAT", value: \.fileExtension) { song in
-            Text(song.fileExtension.uppercased())
-                .kyberixBody()
-                .contentShape(Rectangle())
-        }
-
-        TableColumn("LENGTH", value: \.duration) { song in
-            Text(formatDuration(song.duration))
-                .kyberixBody()
-                .contentShape(Rectangle())
-                .onTapGesture(count: 2) {
-                    playSong(song)
-                }
-        }
-    }
-
     var body: some View {
-        Table(sortedSongs, selection: $selectedSongIDs, sortOrder: $sortOrder) {
-            tableColumns
+        VStack(spacing: 0) {
+            MusicListHeader(sortKey: $sortKey, sortAscending: $sortAscending)
+
+            ScrollView {
+                LazyVStack(spacing: 0) {
+                    ForEach(sortedSongs) { song in
+                        MusicListRow(
+                            song: song,
+                            isSelected: selectedSongIDs.contains(song.id),
+                            isPlaying: playableSong?.path == song.filePath,
+                            onPlay: { playSong(song) },
+                            onSelect: { handleSelection(for: song) }
+                        )
+                        .contextMenu {
+                            let idsToActOn: Set<SongItem.ID> = selectedSongIDs.contains(song.id) ? selectedSongIDs : [song.id]
+                            contextMenuContent(for: idsToActOn)
+                        }
+                    }
+                }
+            }
         }
-        .scrollContentBackground(.hidden)
         .background(Color.kyberixBlack)
         .searchable(text: $searchText, placement: .automatic, prompt: "SEARCH SONGS")
-        .onChange(of: sortOrder) { _, newOrder in
-            saveSortOrder(newOrder)
-        }
+        .onChange(of: sortKey) { _, _ in updateSortOrder() }
+        .onChange(of: sortAscending) { _, _ in updateSortOrder() }
         .onAppear {
             updateSortOrder()
-        }
-        .contextMenu(forSelectionType: SongItem.ID.self) { selectedIDs in
-            contextMenuContent(for: selectedIDs)
         }
         .sheet(item: $songToEdit) { song in
             EditMetadataView(song: song, initialField: editingField)
@@ -176,7 +120,7 @@ struct MusicListView: View {
         }
     }
 
-    // MARK: - Context Menu (extracted to help the type-checker)
+    // MARK: - Context Menu
 
     @ViewBuilder
     private func contextMenuContent(for selectedIDs: Set<SongItem.ID>) -> some View {
@@ -235,6 +179,19 @@ struct MusicListView: View {
 
     // MARK: - Private Methods
 
+    private func handleSelection(for song: SongItem) {
+        if NSEvent.modifierFlags.contains(.command) {
+            if selectedSongIDs.contains(song.id) {
+                selectedSongIDs.remove(song.id)
+            } else {
+                selectedSongIDs.insert(song.id)
+            }
+        } else {
+            // Simple click selects only this, clearing others
+            selectedSongIDs = [song.id]
+        }
+    }
+
     private func editSong(_ song: SongItem, field: SongField) {
         editingField = field
         songToEdit = song
@@ -278,15 +235,7 @@ struct MusicListView: View {
     }
 
     private func saveSortOrder(_ newOrder: [KeyPathComparator<SongItem>]) {
-        guard let first = newOrder.first else { return }
-        sortAscending = first.order == .forward
-
-        if first.keyPath == \SongItem.title             { sortKey = "title" }
-        else if first.keyPath == \SongItem.artist       { sortKey = "artist" }
-        else if first.keyPath == \SongItem.album        { sortKey = "album" }
-        else if first.keyPath == \SongItem.genre        { sortKey = "genre" }
-        else if first.keyPath == \SongItem.fileExtension { sortKey = "fileExtension" }
-        else if first.keyPath == \SongItem.duration     { sortKey = "duration" }
+        // Not used with manual sortKey binding anymore, but kept if needed
     }
 
     private func playSong(_ song: SongItem) {

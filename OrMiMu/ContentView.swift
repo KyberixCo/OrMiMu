@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var playableSong: URL? = nil
     
     // Navigation State
+    @AppStorage("showPlayer") private var showPlayer = true
     @State private var selectedItem: SidebarItem? = .library
     @State private var showSmartPlaylistSheet = false
     @State private var showNewPlaylistAlert = false
@@ -47,59 +48,71 @@ struct ContentView: View {
 
     var body: some View {
         NavigationSplitView {
-            List(selection: $selectedItem) {
-                Section("System") {
-                    NavigationLink(value: SidebarItem.library) {
-                        HStack {
-                            KyberixIcon(name: "music.note")
-                            Text("Library").kyberixBody()
-                        }
+            VStack(spacing: 0) {
+                // System Items
+                VStack(spacing: 0) {
+                    SidebarButton(title: "LIBRARY", icon: "music.note", isSelected: selectedItem == .library) {
+                        selectedItem = .library
                     }
-                    NavigationLink(value: SidebarItem.download) {
-                        HStack {
-                            KyberixIcon(name: "arrow.down.circle")
-                            Text("Downloads").kyberixBody()
-                        }
+                    SidebarButton(title: "DOWNLOADS", icon: "arrow.down.circle", isSelected: selectedItem == .download) {
+                        selectedItem = .download
                     }
-                    NavigationLink(value: SidebarItem.external) {
-                        HStack {
-                            KyberixIcon(name: "externaldrive")
-                            Text("Devices").kyberixBody()
-                        }
+                    SidebarButton(title: "DEVICES", icon: "externaldrive", isSelected: selectedItem == .external) {
+                        selectedItem = .external
                     }
                 }
-                .listRowBackground(Color.kyberixBlack)
 
-                Section("Playlists") {
-                    ForEach(playlists) { playlist in
-                        NavigationLink(value: SidebarItem.playlist(playlist)) {
-                            HStack {
-                                KyberixIcon(name: playlist.isSmart ? "gearshape" : "music.note.list")
-                                Text(playlist.name).kyberixBody()
-                            }
-                        }
-                        .contextMenu {
-                            Button("Rename") {
-                                playlistToRename = playlist
-                                showRenameAlert = true
-                            }
-                            Button("Delete") {
-                                modelContext.delete(playlist)
-                                if case .playlist(let selected) = selectedItem, selected == playlist {
-                                    selectedItem = nil
+                // Playlists Section
+                if !playlists.isEmpty {
+                    Text("PLAYLISTS")
+                        .kyberixHeader()
+                        .padding(.horizontal, 16)
+                        .padding(.top, 20)
+                        .padding(.bottom, 8)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+
+                    ScrollView {
+                        VStack(spacing: 0) {
+                            ForEach(playlists) { playlist in
+                                SidebarButton(
+                                    title: playlist.name,
+                                    icon: playlist.isSmart ? "gearshape" : "music.note.list",
+                                    isSelected: selectedItem == .playlist(playlist)
+                                ) {
+                                    selectedItem = .playlist(playlist)
+                                }
+                                .contextMenu {
+                                    Button("Rename") {
+                                        playlistToRename = playlist
+                                        showRenameAlert = true
+                                    }
+                                    Button("Delete") {
+                                        modelContext.delete(playlist)
+                                        if case .playlist(let selected) = selectedItem, selected == playlist {
+                                            selectedItem = nil
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
                 }
-                .listRowBackground(Color.kyberixBlack)
 
+                Spacer()
             }
-            .navigationTitle("OrMiMu")
-            .scrollContentBackground(.hidden)
             .background(Color.kyberixBlack)
+            .overlay(
+                Rectangle()
+                    .frame(width: 1)
+                    .foregroundStyle(Color.kyberixGrey),
+                alignment: .trailing
+            )
+            .navigationTitle("OrMiMu")
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
+                    Button(action: { showPlayer.toggle() }) {
+                        Label("Toggle Player", systemImage: showPlayer ? "hifispeaker.fill" : "hifispeaker")
+                    }
                     Button(action: { showNewPlaylistAlert = true }) {
                         Label("Add Playlist", systemImage: "plus")
                     }
@@ -167,7 +180,7 @@ struct ContentView: View {
                 .background(Color.kyberixBlack)
 
                 // Playing Controls - Persistent at bottom of detail view
-                if playableSong != nil {
+                if playableSong != nil && showPlayer {
                     VStack(spacing: 0) {
                         Divider().overlay(Color.kyberixGrey)
                         MusicPlayer(playableSong: $playableSong)
