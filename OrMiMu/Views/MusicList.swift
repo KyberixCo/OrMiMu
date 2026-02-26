@@ -27,6 +27,26 @@ struct BulkEditContext: Identifiable {
     let songs: [SongItem]
 }
 
+struct PlayButtonCell: View {
+    let song: SongItem
+    let playableSong: URL?
+    let playAction: (SongItem) -> Void
+
+    var body: some View {
+        if let playableSong = playableSong, playableSong.path == song.filePath {
+            KyberixIcon(name: "waveform")
+                .onTapGesture {
+                    playAction(song)
+                }
+        } else {
+            KyberixIcon(name: "play")
+                .onTapGesture {
+                    playAction(song)
+                }
+        }
+    }
+}
+
 struct MusicListView: View {
     var songs: [SongItem]
     @Binding var playableSong: URL?
@@ -76,17 +96,7 @@ struct MusicListView: View {
     var body: some View {
         Table(sortedSongs, selection: $selectedSongIDs, sortOrder: $sortOrder) {
             TableColumn(value: \.title) { song in // Using title just for sorting key logic even if content differs slightly
-                if let playableSong = playableSong, playableSong.path == song.filePath {
-                    KyberixIcon(name: "waveform")
-                        .onTapGesture {
-                            playSong(song)
-                        }
-                } else {
-                    KyberixIcon(name: "play")
-                        .onTapGesture {
-                            playSong(song)
-                        }
-                }
+                PlayButtonCell(song: song, playableSong: playableSong, playAction: playSong)
             } label: {
                 Text("").kyberixHeader()
             }
