@@ -158,6 +158,9 @@ struct FailedDownloadsView: View {
     var items: [DownloadManager.FailedDownloadItem]
     @Environment(\.dismiss) private var dismiss
 
+    // Add sorting state for Table
+    @State private var sortOrder = [KeyPathComparator(\DownloadManager.FailedDownloadItem.title)]
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
@@ -169,10 +172,24 @@ struct FailedDownloadsView: View {
             }
             .padding()
 
-            Table(items) {
-                TableColumn(content: { item in Text(item.title).kyberixBody() }, label: { Text("TITLE").kyberixHeader() })
-                TableColumn(content: { item in Text(item.url).kyberixBody() }, label: { Text("URL").kyberixHeader() })
-                TableColumn(content: { item in Text(item.error).kyberixBody() }, label: { Text("ERROR").kyberixHeader() })
+            Table(items, sortOrder: $sortOrder) {
+                TableColumn(value: \.title) { item in
+                    Text(item.title).kyberixBody()
+                } label: {
+                    Text("TITLE").kyberixHeader()
+                }
+
+                TableColumn(value: \.url) { item in
+                    Text(item.url).kyberixBody()
+                } label: {
+                    Text("URL").kyberixHeader()
+                }
+
+                TableColumn(value: \.error) { item in
+                    Text(item.error).kyberixBody()
+                } label: {
+                    Text("ERROR").kyberixHeader()
+                }
             }
             .scrollContentBackground(.hidden)
             .background(Color.kyberixBlack)
