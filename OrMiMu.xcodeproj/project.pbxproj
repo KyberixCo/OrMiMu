@@ -10,35 +10,36 @@
 		645F89BE2B744347000F99F0 /* OrMiMuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645F89BD2B744347000F99F0 /* OrMiMuTests.swift */; };
 		645F89C82B744347000F99F0 /* OrMiMuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645F89C72B744347000F99F0 /* OrMiMuUITests.swift */; };
 		645F89CA2B744347000F99F0 /* OrMiMuUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 645F89C92B744347000F99F0 /* OrMiMuUITestsLaunchTests.swift */; };
-		BAB1EEE22F507948001EDC6B /* KyberixTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EECD2F507948001EDC6B /* KyberixTheme.swift */; };
-		BAB1EEE32F507948001EDC6B /* MusicListComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EED12F507948001EDC6B /* MusicListComponents.swift */; };
-		BAB1EEE42F507948001EDC6B /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEC72F507948001EDC6B /* AudioPlayer.swift */; };
-		BAB1EEE52F507948001EDC6B /* StatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEC02F507948001EDC6B /* StatusManager.swift */; };
-		BAB1EEE62F507948001EDC6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEDD2F507948001EDC6B /* ContentView.swift */; };
-		BAB1EEE72F507948001EDC6B /* SidebarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EED32F507948001EDC6B /* SidebarButton.swift */; };
-		BAB1EEE82F507948001EDC6B /* OrMiMuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEE02F507948001EDC6B /* OrMiMuApp.swift */; };
-		BAB1EEE92F507948001EDC6B /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EECB2F507948001EDC6B /* SyncService.swift */; };
-		BAB1EEEA2F507948001EDC6B /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEBD2F507948001EDC6B /* DownloadManager.swift */; };
-		BAB1EEEB2F507948001EDC6B /* MetadataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EECA2F507948001EDC6B /* MetadataService.swift */; };
-		BAB1EEEC2F507948001EDC6B /* MusicList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EED72F507948001EDC6B /* MusicList.swift */; };
-		BAB1EEED2F507948001EDC6B /* ConversionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEC82F507948001EDC6B /* ConversionService.swift */; };
-		BAB1EEEE2F507948001EDC6B /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEC62F507948001EDC6B /* AddFolder.swift */; };
-		BAB1EEEF2F507948001EDC6B /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EED82F507948001EDC6B /* MusicPlayer.swift */; };
-		BAB1EEF02F507948001EDC6B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEBF2F507948001EDC6B /* Item.swift */; };
-		BAB1EEF12F507948001EDC6B /* KyberixComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EED02F507948001EDC6B /* KyberixComponents.swift */; };
-		BAB1EEF22F507948001EDC6B /* DeviceManagerContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EED52F507948001EDC6B /* DeviceManagerContext.swift */; };
-		BAB1EEF32F507948001EDC6B /* DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEC92F507948001EDC6B /* DeviceService.swift */; };
-		BAB1EEF42F507948001EDC6B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEBB2F507948001EDC6B /* Constants.swift */; };
-		BAB1EEF52F507948001EDC6B /* DeviceManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EED62F507948001EDC6B /* DeviceManagerView.swift */; };
-		BAB1EEF62F507948001EDC6B /* FilesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEBE2F507948001EDC6B /* FilesModels.swift */; };
-		BAB1EEF72F507948001EDC6B /* DeviceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEBC2F507948001EDC6B /* DeviceModels.swift */; };
-		BAB1EEF82F507948001EDC6B /* PlaylistAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EED92F507948001EDC6B /* PlaylistAlerts.swift */; };
-		BAB1EEF92F507948001EDC6B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEDA2F507948001EDC6B /* SettingsView.swift */; };
-		BAB1EEFA2F507948001EDC6B /* MusicListEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EED22F507948001EDC6B /* MusicListEditing.swift */; };
-		BAB1EEFB2F507948001EDC6B /* YouTubeDownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EEDB2F507948001EDC6B /* YouTubeDownloadView.swift */; };
-		BAB1EEFC2F507948001EDC6B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAB1EEDE2F507948001EDC6B /* Info.plist */; };
-		BAB1EEFD2F507948001EDC6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAB1EEC42F507948001EDC6B /* Assets.xcassets */; };
-		BAB1EEFE2F507948001EDC6B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAB1EEC22F507948001EDC6B /* Preview Assets.xcassets */; };
+		BAB1EFFD2F50AF38001EDC6B /* MusicList.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFF22F50AF38001EDC6B /* MusicList.swift */; };
+		BAB1EFFE2F50AF38001EDC6B /* SyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFE52F50AF38001EDC6B /* SyncService.swift */; };
+		BAB1EFFF2F50AF38001EDC6B /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFD92F50AF38001EDC6B /* Item.swift */; };
+		BAB1F0002F50AF38001EDC6B /* MusicListEditing.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFED2F50AF38001EDC6B /* MusicListEditing.swift */; };
+		BAB1F0012F50AF38001EDC6B /* FilesModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFD82F50AF38001EDC6B /* FilesModels.swift */; };
+		BAB1F0022F50AF38001EDC6B /* AddFolder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFE02F50AF38001EDC6B /* AddFolder.swift */; };
+		BAB1F0032F50AF38001EDC6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFF82F50AF38001EDC6B /* ContentView.swift */; };
+		BAB1F0042F50AF38001EDC6B /* PlaylistAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFF42F50AF38001EDC6B /* PlaylistAlerts.swift */; };
+		BAB1F0052F50AF38001EDC6B /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFF52F50AF38001EDC6B /* SettingsView.swift */; };
+		BAB1F0062F50AF38001EDC6B /* DownloadManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFD72F50AF38001EDC6B /* DownloadManager.swift */; };
+		BAB1F0072F50AF38001EDC6B /* MusicPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFF32F50AF38001EDC6B /* MusicPlayer.swift */; };
+		BAB1F0082F50AF38001EDC6B /* MetadataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFE42F50AF38001EDC6B /* MetadataService.swift */; };
+		BAB1F0092F50AF38001EDC6B /* DeviceManagerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFF12F50AF38001EDC6B /* DeviceManagerView.swift */; };
+		BAB1F00A2F50AF38001EDC6B /* StatusManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFDA2F50AF38001EDC6B /* StatusManager.swift */; };
+		BAB1F00B2F50AF38001EDC6B /* ConversionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFE22F50AF38001EDC6B /* ConversionService.swift */; };
+		BAB1F00C2F50AF38001EDC6B /* DeviceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFE32F50AF38001EDC6B /* DeviceService.swift */; };
+		BAB1F00D2F50AF38001EDC6B /* ActionComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFEA2F50AF38001EDC6B /* ActionComponents.swift */; };
+		BAB1F00E2F50AF38001EDC6B /* OrMiMuApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFFB2F50AF38001EDC6B /* OrMiMuApp.swift */; };
+		BAB1F00F2F50AF38001EDC6B /* DeviceManagerContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFF02F50AF38001EDC6B /* DeviceManagerContext.swift */; };
+		BAB1F0102F50AF38001EDC6B /* DeviceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFD62F50AF38001EDC6B /* DeviceModels.swift */; };
+		BAB1F0112F50AF38001EDC6B /* YouTubeDownloadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFF62F50AF38001EDC6B /* YouTubeDownloadView.swift */; };
+		BAB1F0122F50AF38001EDC6B /* KyberixComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFEB2F50AF38001EDC6B /* KyberixComponents.swift */; };
+		BAB1F0132F50AF38001EDC6B /* SidebarButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFEE2F50AF38001EDC6B /* SidebarButton.swift */; };
+		BAB1F0142F50AF38001EDC6B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFD52F50AF38001EDC6B /* Constants.swift */; };
+		BAB1F0152F50AF38001EDC6B /* MusicListComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFEC2F50AF38001EDC6B /* MusicListComponents.swift */; };
+		BAB1F0162F50AF38001EDC6B /* KyberixTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFE72F50AF38001EDC6B /* KyberixTheme.swift */; };
+		BAB1F0172F50AF38001EDC6B /* AudioPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAB1EFE12F50AF38001EDC6B /* AudioPlayer.swift */; };
+		BAB1F0182F50AF38001EDC6B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAB1EFDE2F50AF38001EDC6B /* Assets.xcassets */; };
+		BAB1F0192F50AF38001EDC6B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BAB1EFDC2F50AF38001EDC6B /* Preview Assets.xcassets */; };
+		BAB1F01A2F50AF38001EDC6B /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BAB1EFF92F50AF38001EDC6B /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,36 +66,37 @@
 		645F89C32B744347000F99F0 /* OrMiMuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrMiMuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		645F89C72B744347000F99F0 /* OrMiMuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrMiMuUITests.swift; sourceTree = "<group>"; };
 		645F89C92B744347000F99F0 /* OrMiMuUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrMiMuUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		BAB1EEBB2F507948001EDC6B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		BAB1EEBC2F507948001EDC6B /* DeviceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModels.swift; sourceTree = "<group>"; };
-		BAB1EEBD2F507948001EDC6B /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
-		BAB1EEBE2F507948001EDC6B /* FilesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesModels.swift; sourceTree = "<group>"; };
-		BAB1EEBF2F507948001EDC6B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
-		BAB1EEC02F507948001EDC6B /* StatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusManager.swift; sourceTree = "<group>"; };
-		BAB1EEC22F507948001EDC6B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		BAB1EEC42F507948001EDC6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		BAB1EEC62F507948001EDC6B /* AddFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolder.swift; sourceTree = "<group>"; };
-		BAB1EEC72F507948001EDC6B /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
-		BAB1EEC82F507948001EDC6B /* ConversionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionService.swift; sourceTree = "<group>"; };
-		BAB1EEC92F507948001EDC6B /* DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceService.swift; sourceTree = "<group>"; };
-		BAB1EECA2F507948001EDC6B /* MetadataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataService.swift; sourceTree = "<group>"; };
-		BAB1EECB2F507948001EDC6B /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
-		BAB1EECD2F507948001EDC6B /* KyberixTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KyberixTheme.swift; sourceTree = "<group>"; };
-		BAB1EED02F507948001EDC6B /* KyberixComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KyberixComponents.swift; sourceTree = "<group>"; };
-		BAB1EED12F507948001EDC6B /* MusicListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListComponents.swift; sourceTree = "<group>"; };
-		BAB1EED22F507948001EDC6B /* MusicListEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListEditing.swift; sourceTree = "<group>"; };
-		BAB1EED32F507948001EDC6B /* SidebarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarButton.swift; sourceTree = "<group>"; };
-		BAB1EED52F507948001EDC6B /* DeviceManagerContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManagerContext.swift; sourceTree = "<group>"; };
-		BAB1EED62F507948001EDC6B /* DeviceManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManagerView.swift; sourceTree = "<group>"; };
-		BAB1EED72F507948001EDC6B /* MusicList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicList.swift; sourceTree = "<group>"; };
-		BAB1EED82F507948001EDC6B /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
-		BAB1EED92F507948001EDC6B /* PlaylistAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistAlerts.swift; sourceTree = "<group>"; };
-		BAB1EEDA2F507948001EDC6B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		BAB1EEDB2F507948001EDC6B /* YouTubeDownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeDownloadView.swift; sourceTree = "<group>"; };
-		BAB1EEDD2F507948001EDC6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		BAB1EEDE2F507948001EDC6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BAB1EEDF2F507948001EDC6B /* OrMiMu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OrMiMu.entitlements; sourceTree = "<group>"; };
-		BAB1EEE02F507948001EDC6B /* OrMiMuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrMiMuApp.swift; sourceTree = "<group>"; };
+		BAB1EFD52F50AF38001EDC6B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		BAB1EFD62F50AF38001EDC6B /* DeviceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceModels.swift; sourceTree = "<group>"; };
+		BAB1EFD72F50AF38001EDC6B /* DownloadManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadManager.swift; sourceTree = "<group>"; };
+		BAB1EFD82F50AF38001EDC6B /* FilesModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilesModels.swift; sourceTree = "<group>"; };
+		BAB1EFD92F50AF38001EDC6B /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		BAB1EFDA2F50AF38001EDC6B /* StatusManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusManager.swift; sourceTree = "<group>"; };
+		BAB1EFDC2F50AF38001EDC6B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		BAB1EFDE2F50AF38001EDC6B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BAB1EFE02F50AF38001EDC6B /* AddFolder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFolder.swift; sourceTree = "<group>"; };
+		BAB1EFE12F50AF38001EDC6B /* AudioPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayer.swift; sourceTree = "<group>"; };
+		BAB1EFE22F50AF38001EDC6B /* ConversionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConversionService.swift; sourceTree = "<group>"; };
+		BAB1EFE32F50AF38001EDC6B /* DeviceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceService.swift; sourceTree = "<group>"; };
+		BAB1EFE42F50AF38001EDC6B /* MetadataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetadataService.swift; sourceTree = "<group>"; };
+		BAB1EFE52F50AF38001EDC6B /* SyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SyncService.swift; sourceTree = "<group>"; };
+		BAB1EFE72F50AF38001EDC6B /* KyberixTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KyberixTheme.swift; sourceTree = "<group>"; };
+		BAB1EFEA2F50AF38001EDC6B /* ActionComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionComponents.swift; sourceTree = "<group>"; };
+		BAB1EFEB2F50AF38001EDC6B /* KyberixComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KyberixComponents.swift; sourceTree = "<group>"; };
+		BAB1EFEC2F50AF38001EDC6B /* MusicListComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListComponents.swift; sourceTree = "<group>"; };
+		BAB1EFED2F50AF38001EDC6B /* MusicListEditing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicListEditing.swift; sourceTree = "<group>"; };
+		BAB1EFEE2F50AF38001EDC6B /* SidebarButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SidebarButton.swift; sourceTree = "<group>"; };
+		BAB1EFF02F50AF38001EDC6B /* DeviceManagerContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManagerContext.swift; sourceTree = "<group>"; };
+		BAB1EFF12F50AF38001EDC6B /* DeviceManagerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceManagerView.swift; sourceTree = "<group>"; };
+		BAB1EFF22F50AF38001EDC6B /* MusicList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicList.swift; sourceTree = "<group>"; };
+		BAB1EFF32F50AF38001EDC6B /* MusicPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicPlayer.swift; sourceTree = "<group>"; };
+		BAB1EFF42F50AF38001EDC6B /* PlaylistAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaylistAlerts.swift; sourceTree = "<group>"; };
+		BAB1EFF52F50AF38001EDC6B /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		BAB1EFF62F50AF38001EDC6B /* YouTubeDownloadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YouTubeDownloadView.swift; sourceTree = "<group>"; };
+		BAB1EFF82F50AF38001EDC6B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		BAB1EFF92F50AF38001EDC6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BAB1EFFA2F50AF38001EDC6B /* OrMiMu.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OrMiMu.entitlements; sourceTree = "<group>"; };
+		BAB1EFFB2F50AF38001EDC6B /* OrMiMuApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrMiMuApp.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,7 +127,7 @@
 		645F899D2B744341000F99F0 = {
 			isa = PBXGroup;
 			children = (
-				BAB1EEE12F507948001EDC6B /* OrMiMu */,
+				BAB1EFFC2F50AF38001EDC6B /* OrMiMu */,
 				645F89BC2B744347000F99F0 /* OrMiMuTests */,
 				645F89C62B744347000F99F0 /* OrMiMuUITests */,
 				645F89A72B744341000F99F0 /* Products */,
@@ -159,111 +161,112 @@
 			path = OrMiMuUITests;
 			sourceTree = "<group>";
 		};
-		BAB1EEBA2F507948001EDC6B /* ExternalDevices */ = {
+		BAB1EFD42F50AF38001EDC6B /* ExternalDevices */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = ExternalDevices;
 			sourceTree = "<group>";
 		};
-		BAB1EEC12F507948001EDC6B /* Models */ = {
+		BAB1EFDB2F50AF38001EDC6B /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				BAB1EEBB2F507948001EDC6B /* Constants.swift */,
-				BAB1EEBC2F507948001EDC6B /* DeviceModels.swift */,
-				BAB1EEBD2F507948001EDC6B /* DownloadManager.swift */,
-				BAB1EEBE2F507948001EDC6B /* FilesModels.swift */,
-				BAB1EEBF2F507948001EDC6B /* Item.swift */,
-				BAB1EEC02F507948001EDC6B /* StatusManager.swift */,
+				BAB1EFD52F50AF38001EDC6B /* Constants.swift */,
+				BAB1EFD62F50AF38001EDC6B /* DeviceModels.swift */,
+				BAB1EFD72F50AF38001EDC6B /* DownloadManager.swift */,
+				BAB1EFD82F50AF38001EDC6B /* FilesModels.swift */,
+				BAB1EFD92F50AF38001EDC6B /* Item.swift */,
+				BAB1EFDA2F50AF38001EDC6B /* StatusManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
 		};
-		BAB1EEC32F507948001EDC6B /* Preview Content */ = {
+		BAB1EFDD2F50AF38001EDC6B /* Preview Content */ = {
 			isa = PBXGroup;
 			children = (
-				BAB1EEC22F507948001EDC6B /* Preview Assets.xcassets */,
+				BAB1EFDC2F50AF38001EDC6B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		BAB1EEC52F507948001EDC6B /* Resources */ = {
+		BAB1EFDF2F50AF38001EDC6B /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				BAB1EEC42F507948001EDC6B /* Assets.xcassets */,
+				BAB1EFDE2F50AF38001EDC6B /* Assets.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
 		};
-		BAB1EECC2F507948001EDC6B /* Services */ = {
+		BAB1EFE62F50AF38001EDC6B /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				BAB1EEC62F507948001EDC6B /* AddFolder.swift */,
-				BAB1EEC72F507948001EDC6B /* AudioPlayer.swift */,
-				BAB1EEC82F507948001EDC6B /* ConversionService.swift */,
-				BAB1EEC92F507948001EDC6B /* DeviceService.swift */,
-				BAB1EECA2F507948001EDC6B /* MetadataService.swift */,
-				BAB1EECB2F507948001EDC6B /* SyncService.swift */,
+				BAB1EFE02F50AF38001EDC6B /* AddFolder.swift */,
+				BAB1EFE12F50AF38001EDC6B /* AudioPlayer.swift */,
+				BAB1EFE22F50AF38001EDC6B /* ConversionService.swift */,
+				BAB1EFE32F50AF38001EDC6B /* DeviceService.swift */,
+				BAB1EFE42F50AF38001EDC6B /* MetadataService.swift */,
+				BAB1EFE52F50AF38001EDC6B /* SyncService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		BAB1EECE2F507948001EDC6B /* Theme */ = {
+		BAB1EFE82F50AF38001EDC6B /* Theme */ = {
 			isa = PBXGroup;
 			children = (
-				BAB1EECD2F507948001EDC6B /* KyberixTheme.swift */,
+				BAB1EFE72F50AF38001EDC6B /* KyberixTheme.swift */,
 			);
 			path = Theme;
 			sourceTree = "<group>";
 		};
-		BAB1EECF2F507948001EDC6B /* Themes */ = {
+		BAB1EFE92F50AF38001EDC6B /* Themes */ = {
 			isa = PBXGroup;
 			children = (
 			);
 			path = Themes;
 			sourceTree = "<group>";
 		};
-		BAB1EED42F507948001EDC6B /* Components */ = {
+		BAB1EFEF2F50AF38001EDC6B /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				BAB1EED02F507948001EDC6B /* KyberixComponents.swift */,
-				BAB1EED12F507948001EDC6B /* MusicListComponents.swift */,
-				BAB1EED22F507948001EDC6B /* MusicListEditing.swift */,
-				BAB1EED32F507948001EDC6B /* SidebarButton.swift */,
+				BAB1EFEA2F50AF38001EDC6B /* ActionComponents.swift */,
+				BAB1EFEB2F50AF38001EDC6B /* KyberixComponents.swift */,
+				BAB1EFEC2F50AF38001EDC6B /* MusicListComponents.swift */,
+				BAB1EFED2F50AF38001EDC6B /* MusicListEditing.swift */,
+				BAB1EFEE2F50AF38001EDC6B /* SidebarButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		BAB1EEDC2F507948001EDC6B /* Views */ = {
+		BAB1EFF72F50AF38001EDC6B /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				BAB1EED42F507948001EDC6B /* Components */,
-				BAB1EED52F507948001EDC6B /* DeviceManagerContext.swift */,
-				BAB1EED62F507948001EDC6B /* DeviceManagerView.swift */,
-				BAB1EED72F507948001EDC6B /* MusicList.swift */,
-				BAB1EED82F507948001EDC6B /* MusicPlayer.swift */,
-				BAB1EED92F507948001EDC6B /* PlaylistAlerts.swift */,
-				BAB1EEDA2F507948001EDC6B /* SettingsView.swift */,
-				BAB1EEDB2F507948001EDC6B /* YouTubeDownloadView.swift */,
+				BAB1EFEF2F50AF38001EDC6B /* Components */,
+				BAB1EFF02F50AF38001EDC6B /* DeviceManagerContext.swift */,
+				BAB1EFF12F50AF38001EDC6B /* DeviceManagerView.swift */,
+				BAB1EFF22F50AF38001EDC6B /* MusicList.swift */,
+				BAB1EFF32F50AF38001EDC6B /* MusicPlayer.swift */,
+				BAB1EFF42F50AF38001EDC6B /* PlaylistAlerts.swift */,
+				BAB1EFF52F50AF38001EDC6B /* SettingsView.swift */,
+				BAB1EFF62F50AF38001EDC6B /* YouTubeDownloadView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		BAB1EEE12F507948001EDC6B /* OrMiMu */ = {
+		BAB1EFFC2F50AF38001EDC6B /* OrMiMu */ = {
 			isa = PBXGroup;
 			children = (
-				BAB1EEBA2F507948001EDC6B /* ExternalDevices */,
-				BAB1EEC12F507948001EDC6B /* Models */,
-				BAB1EEC32F507948001EDC6B /* Preview Content */,
-				BAB1EEC52F507948001EDC6B /* Resources */,
-				BAB1EECC2F507948001EDC6B /* Services */,
-				BAB1EECE2F507948001EDC6B /* Theme */,
-				BAB1EECF2F507948001EDC6B /* Themes */,
-				BAB1EEDC2F507948001EDC6B /* Views */,
-				BAB1EEDD2F507948001EDC6B /* ContentView.swift */,
-				BAB1EEDE2F507948001EDC6B /* Info.plist */,
-				BAB1EEDF2F507948001EDC6B /* OrMiMu.entitlements */,
-				BAB1EEE02F507948001EDC6B /* OrMiMuApp.swift */,
+				BAB1EFD42F50AF38001EDC6B /* ExternalDevices */,
+				BAB1EFDB2F50AF38001EDC6B /* Models */,
+				BAB1EFDD2F50AF38001EDC6B /* Preview Content */,
+				BAB1EFDF2F50AF38001EDC6B /* Resources */,
+				BAB1EFE62F50AF38001EDC6B /* Services */,
+				BAB1EFE82F50AF38001EDC6B /* Theme */,
+				BAB1EFE92F50AF38001EDC6B /* Themes */,
+				BAB1EFF72F50AF38001EDC6B /* Views */,
+				BAB1EFF82F50AF38001EDC6B /* ContentView.swift */,
+				BAB1EFF92F50AF38001EDC6B /* Info.plist */,
+				BAB1EFFA2F50AF38001EDC6B /* OrMiMu.entitlements */,
+				BAB1EFFB2F50AF38001EDC6B /* OrMiMuApp.swift */,
 			);
 			path = OrMiMu;
 			sourceTree = "<group>";
@@ -372,9 +375,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAB1EEFC2F507948001EDC6B /* Info.plist in Resources */,
-				BAB1EEFD2F507948001EDC6B /* Assets.xcassets in Resources */,
-				BAB1EEFE2F507948001EDC6B /* Preview Assets.xcassets in Resources */,
+				BAB1F0182F50AF38001EDC6B /* Assets.xcassets in Resources */,
+				BAB1F0192F50AF38001EDC6B /* Preview Assets.xcassets in Resources */,
+				BAB1F01A2F50AF38001EDC6B /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -399,32 +402,33 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BAB1EEE22F507948001EDC6B /* KyberixTheme.swift in Sources */,
-				BAB1EEE32F507948001EDC6B /* MusicListComponents.swift in Sources */,
-				BAB1EEE42F507948001EDC6B /* AudioPlayer.swift in Sources */,
-				BAB1EEE52F507948001EDC6B /* StatusManager.swift in Sources */,
-				BAB1EEE62F507948001EDC6B /* ContentView.swift in Sources */,
-				BAB1EEE72F507948001EDC6B /* SidebarButton.swift in Sources */,
-				BAB1EEE82F507948001EDC6B /* OrMiMuApp.swift in Sources */,
-				BAB1EEE92F507948001EDC6B /* SyncService.swift in Sources */,
-				BAB1EEEA2F507948001EDC6B /* DownloadManager.swift in Sources */,
-				BAB1EEEB2F507948001EDC6B /* MetadataService.swift in Sources */,
-				BAB1EEEC2F507948001EDC6B /* MusicList.swift in Sources */,
-				BAB1EEED2F507948001EDC6B /* ConversionService.swift in Sources */,
-				BAB1EEEE2F507948001EDC6B /* AddFolder.swift in Sources */,
-				BAB1EEEF2F507948001EDC6B /* MusicPlayer.swift in Sources */,
-				BAB1EEF02F507948001EDC6B /* Item.swift in Sources */,
-				BAB1EEF12F507948001EDC6B /* KyberixComponents.swift in Sources */,
-				BAB1EEF22F507948001EDC6B /* DeviceManagerContext.swift in Sources */,
-				BAB1EEF32F507948001EDC6B /* DeviceService.swift in Sources */,
-				BAB1EEF42F507948001EDC6B /* Constants.swift in Sources */,
-				BAB1EEF52F507948001EDC6B /* DeviceManagerView.swift in Sources */,
-				BAB1EEF62F507948001EDC6B /* FilesModels.swift in Sources */,
-				BAB1EEF72F507948001EDC6B /* DeviceModels.swift in Sources */,
-				BAB1EEF82F507948001EDC6B /* PlaylistAlerts.swift in Sources */,
-				BAB1EEF92F507948001EDC6B /* SettingsView.swift in Sources */,
-				BAB1EEFA2F507948001EDC6B /* MusicListEditing.swift in Sources */,
-				BAB1EEFB2F507948001EDC6B /* YouTubeDownloadView.swift in Sources */,
+				BAB1EFFD2F50AF38001EDC6B /* MusicList.swift in Sources */,
+				BAB1EFFE2F50AF38001EDC6B /* SyncService.swift in Sources */,
+				BAB1EFFF2F50AF38001EDC6B /* Item.swift in Sources */,
+				BAB1F0002F50AF38001EDC6B /* MusicListEditing.swift in Sources */,
+				BAB1F0012F50AF38001EDC6B /* FilesModels.swift in Sources */,
+				BAB1F0022F50AF38001EDC6B /* AddFolder.swift in Sources */,
+				BAB1F0032F50AF38001EDC6B /* ContentView.swift in Sources */,
+				BAB1F0042F50AF38001EDC6B /* PlaylistAlerts.swift in Sources */,
+				BAB1F0052F50AF38001EDC6B /* SettingsView.swift in Sources */,
+				BAB1F0062F50AF38001EDC6B /* DownloadManager.swift in Sources */,
+				BAB1F0072F50AF38001EDC6B /* MusicPlayer.swift in Sources */,
+				BAB1F0082F50AF38001EDC6B /* MetadataService.swift in Sources */,
+				BAB1F0092F50AF38001EDC6B /* DeviceManagerView.swift in Sources */,
+				BAB1F00A2F50AF38001EDC6B /* StatusManager.swift in Sources */,
+				BAB1F00B2F50AF38001EDC6B /* ConversionService.swift in Sources */,
+				BAB1F00C2F50AF38001EDC6B /* DeviceService.swift in Sources */,
+				BAB1F00D2F50AF38001EDC6B /* ActionComponents.swift in Sources */,
+				BAB1F00E2F50AF38001EDC6B /* OrMiMuApp.swift in Sources */,
+				BAB1F00F2F50AF38001EDC6B /* DeviceManagerContext.swift in Sources */,
+				BAB1F0102F50AF38001EDC6B /* DeviceModels.swift in Sources */,
+				BAB1F0112F50AF38001EDC6B /* YouTubeDownloadView.swift in Sources */,
+				BAB1F0122F50AF38001EDC6B /* KyberixComponents.swift in Sources */,
+				BAB1F0132F50AF38001EDC6B /* SidebarButton.swift in Sources */,
+				BAB1F0142F50AF38001EDC6B /* Constants.swift in Sources */,
+				BAB1F0152F50AF38001EDC6B /* MusicListComponents.swift in Sources */,
+				BAB1F0162F50AF38001EDC6B /* KyberixTheme.swift in Sources */,
+				BAB1F0172F50AF38001EDC6B /* AudioPlayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

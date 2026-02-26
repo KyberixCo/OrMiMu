@@ -107,9 +107,12 @@ struct ContentView: View {
                     .foregroundStyle(Color.kyberixGrey),
                 alignment: .trailing
             )
+            .navigationSplitViewColumnWidth(min: 280, ideal: 300, max: 450)
             .navigationTitle("OrMiMu")
+            // Ensure toolbar buttons have a flexible spacer before them to anchor to the right
             .toolbar {
                 ToolbarItemGroup(placement: .primaryAction) {
+                    Spacer() // Ensure right anchoring
                     Button(action: { showPlayer.toggle() }) {
                         Label("Toggle Player", systemImage: showPlayer ? "hifispeaker.fill" : "hifispeaker")
                     }
@@ -121,6 +124,8 @@ struct ContentView: View {
                     }
                 }
             }
+            .background(Material.ultraThinMaterial) // Add blur to toolbar/sidebar top
+            .toolbarBackground(.hidden, for: .windowToolbar)
         } detail: {
             VStack(spacing: 0) {
                 ZStack {

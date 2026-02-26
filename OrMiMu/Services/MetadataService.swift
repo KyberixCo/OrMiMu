@@ -2,7 +2,7 @@
 //  MetadataService.swift
 //  OrMiMu
 //
-//  Created by Jules on 7/02/24.
+//  Created by Kyberix on 7/02/24.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  DeviceService.swift
 //  OrMiMu
 //
-//  Created by Jules on 08/02/26.
+//  Created by Kyberix on 08/02/26.
 //
 
 import Foundation

@@ -2,7 +2,7 @@
 //  DownloadManager.swift
 //  OrMiMu
 //
-//  Created by Jules on 2024-05-22.
+//  Created by Kyberix on 2024-05-22.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  KyberixTheme.swift
 //  OrMiMu
 //
-//  Created by Jules on 2024-05-23.
+//  Created by Kyberix on 2024-05-23.
 //
 
 import SwiftUI

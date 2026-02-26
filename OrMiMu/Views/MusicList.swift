@@ -80,7 +80,7 @@ struct MusicListView: View {
 
             ScrollView {
                 LazyVStack(spacing: 0) {
-                    ForEach(sortedSongs) { song in
+                    ForEach(Array(sortedSongs.enumerated()), id: \.element.id) { index, song in
                         MusicListRow(
                             song: song,
                             isSelected: selectedSongIDs.contains(song.id),
@@ -92,9 +92,11 @@ struct MusicListView: View {
                             let idsToActOn: Set<SongItem.ID> = selectedSongIDs.contains(song.id) ? selectedSongIDs : [song.id]
                             contextMenuContent(for: idsToActOn)
                         }
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
                     }
                 }
             }
+            .animation(.linear(duration: 0.2), value: sortedSongs)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(Color.kyberixBlack)

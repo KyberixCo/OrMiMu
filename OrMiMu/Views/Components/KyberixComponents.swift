@@ -2,7 +2,7 @@
 //  KyberixComponents.swift
 //  OrMiMu
 //
-//  Created by Jules on 2024-05-23.
+//  Created by Kyberix on 2024-05-23.
 //
 
 import SwiftUI
@@ -92,9 +92,9 @@ struct KyberixSlider: View {
             let width = geometry.size.width
             let rangeSpan = range.upperBound - range.lowerBound
             let progress = rangeSpan > 0 ? (value - range.lowerBound) / rangeSpan : 0
-            let thumbWidth: CGFloat = 8
+            let thumbSize: CGFloat = 6
             // Center thumb
-            let xOffset = width * CGFloat(progress) - (thumbWidth / 2)
+            let xOffset = width * CGFloat(progress) - (thumbSize / 2)
 
             ZStack(alignment: .leading) {
                 // Hit Area
@@ -105,17 +105,17 @@ struct KyberixSlider: View {
                 // Track
                 Rectangle()
                     .fill(Color.kyberixGrey)
-                    .frame(height: 4)
+                    .frame(height: 1)
 
                 // Active Track
                 Rectangle()
                     .fill(Color.kyberixWhite)
-                    .frame(width: max(0, min(width, width * CGFloat(progress))), height: 4)
+                    .frame(width: max(0, min(width, width * CGFloat(progress))), height: 1)
 
                 // Thumb
                 Rectangle()
                     .fill(Color.kyberixWhite)
-                    .frame(width: thumbWidth, height: 16)
+                    .frame(width: thumbSize, height: thumbSize)
                     .offset(x: xOffset)
             }
             .gesture(

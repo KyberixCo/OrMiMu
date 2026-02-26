@@ -19,6 +19,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 window.backgroundColor = NSColor(Color.kyberixBlack)
                 window.isOpaque = true
                 window.title = "OrMiMu"
+
+                // Hide standard window buttons to replace or integrate custom logic if needed,
+                // or just rely on SwiftUI toolbar background fixes.
+                // For now, let's keep standard buttons but ensure the backing view is correct.
             }
         }
     }
@@ -47,6 +51,7 @@ struct OrMiMuApp: App {
         WindowGroup {
             ContentView()
                 .background(Color.kyberixBlack)
+                .ignoresSafeArea() // Ensure content goes behind title bar
         }
         .modelContainer(sharedModelContainer)
         .windowStyle(.hiddenTitleBar)

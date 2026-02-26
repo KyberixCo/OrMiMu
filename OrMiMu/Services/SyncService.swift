@@ -2,7 +2,7 @@
 //  SyncService.swift
 //  OrMiMu
 //
-//  Created by Jules on 2/24/24.
+//  Created by Kyberix on 2/24/24.
 //
 
 import Foundation
