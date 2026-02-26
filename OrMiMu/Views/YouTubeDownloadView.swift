@@ -173,22 +173,16 @@ struct FailedDownloadsView: View {
             .padding()
 
             Table(items, sortOrder: $sortOrder) {
-                TableColumn(value: \.title) { item in
+                TableColumn("TITLE", value: \.title) { item in
                     Text(item.title).kyberixBody()
-                } label: {
-                    Text("TITLE").kyberixHeader()
                 }
 
-                TableColumn(value: \.url) { item in
+                TableColumn("URL", value: \.url) { item in
                     Text(item.url).kyberixBody()
-                } label: {
-                    Text("URL").kyberixHeader()
                 }
 
-                TableColumn(value: \.error) { item in
+                TableColumn("ERROR", value: \.error) { item in
                     Text(item.error).kyberixBody()
-                } label: {
-                    Text("ERROR").kyberixHeader()
                 }
             }
             .scrollContentBackground(.hidden)
