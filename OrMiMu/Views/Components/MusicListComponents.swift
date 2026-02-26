@@ -127,6 +127,7 @@ struct MusicListRow: View {
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .background(backgroundColor)
         .contentShape(Rectangle())
         .onHover { isHovering = $0 }
