@@ -78,29 +78,39 @@ struct MusicListView: View {
         VStack(spacing: 0) {
             MusicListHeader(sortKey: $sortKey, sortAscending: $sortAscending)
 
-            ScrollView {
-                LazyVStack(spacing: 0) {
-                    ForEach(Array(sortedSongs.enumerated()), id: \.element.id) { index, song in
-                        MusicListRow(
-                            song: song,
-                            isSelected: selectedSongIDs.contains(song.id),
-                            isPlaying: playableSong?.path == song.filePath,
-                            onPlay: { playSong(song) },
-                            onSelect: { handleSelection(for: song) }
-                        )
-                        .contextMenu {
-                            let idsToActOn: Set<SongItem.ID> = selectedSongIDs.contains(song.id) ? selectedSongIDs : [song.id]
-                            contextMenuContent(for: idsToActOn)
-                        }
-                        .transition(.move(edge: .bottom).combined(with: .opacity))
-                    }
+            List(sortedSongs, selection: $selectedSongIDs) { song in
+                MusicListRow(
+                    song: song,
+                    isSelected: selectedSongIDs.contains(song.id),
+                    isPlaying: playableSong?.path == song.filePath,
+                    onPlay: { playSong(song) }
+                )
+                .listRowInsets(EdgeInsets())
+                .listRowSeparator(.hidden)
+                .listRowBackground(Color.clear)
+                .contextMenu {
+                    contextMenuContent(for: selectedSongIDs)
                 }
             }
-            .animation(.linear(duration: 0.2), value: sortedSongs)
+            .listStyle(.plain)
+            .environment(\.defaultMinListRowHeight, 36)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .onDeleteCommand {
+                deleteFromLibrary(songIDs: selectedSongIDs)
+            }
         }
         .background(Color.kyberixBlack)
         .searchable(text: $searchText, placement: .automatic, prompt: "SEARCH SONGS")
+        .background(
+             Button("Select All E") { selectAllSongs() }
+                 .keyboardShortcut("e", modifiers: .command)
+                 .hidden()
+        )
+        .background(
+             Button("Select All A") { selectAllSongs() }
+                 .keyboardShortcut("a", modifiers: .command)
+                 .hidden()
+        )
         .onChange(of: sortKey) { _, _ in updateSortOrder() }
         .onChange(of: sortAscending) { _, _ in updateSortOrder() }
         .onAppear {
@@ -182,17 +192,8 @@ struct MusicListView: View {
 
     // MARK: - Private Methods
 
-    private func handleSelection(for song: SongItem) {
-        if NSEvent.modifierFlags.contains(.command) {
-            if selectedSongIDs.contains(song.id) {
-                selectedSongIDs.remove(song.id)
-            } else {
-                selectedSongIDs.insert(song.id)
-            }
-        } else {
-            // Simple click selects only this, clearing others
-            selectedSongIDs = [song.id]
-        }
+    private func selectAllSongs() {
+        selectedSongIDs = Set(sortedSongs.map { $0.id })
     }
 
     private func editSong(_ song: SongItem, field: SongField) {
