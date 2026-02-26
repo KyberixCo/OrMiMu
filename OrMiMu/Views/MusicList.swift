@@ -95,6 +95,7 @@ struct MusicListView: View {
                     }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .background(Color.kyberixBlack)
         .searchable(text: $searchText, placement: .automatic, prompt: "SEARCH SONGS")

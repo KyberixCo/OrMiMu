@@ -59,6 +59,7 @@ struct MusicListHeader: View {
         }
         .padding(.horizontal, 8)
         .padding(.vertical, 8)
+        .frame(height: 32)
         .background(Color.kyberixBlack)
         .overlay(Rectangle().frame(height: 1).foregroundColor(Color.kyberixGrey), alignment: .bottom)
     }
