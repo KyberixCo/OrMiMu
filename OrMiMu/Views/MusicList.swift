@@ -88,12 +88,14 @@ struct MusicListView: View {
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
                 .listRowBackground(Color.clear)
+                .contentShape(Rectangle()) // Ensures tap area is correct
                 .contextMenu {
                     contextMenuContent(for: selectedSongIDs)
                 }
             }
             .listStyle(.plain)
-            .environment(\.defaultMinListRowHeight, 36)
+            .scrollContentBackground(.hidden) // Removes system background
+            .environment(\.defaultMinListRowHeight, 0) // Allows tighter rows
             .frame(maxWidth: .infinity, maxHeight: .infinity)
             .onDeleteCommand {
                 deleteFromLibrary(songIDs: selectedSongIDs)
