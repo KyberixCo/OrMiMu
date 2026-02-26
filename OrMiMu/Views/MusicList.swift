@@ -78,21 +78,25 @@ struct MusicListView: View {
         VStack(spacing: 0) {
             MusicListHeader(sortKey: $sortKey, sortAscending: $sortAscending)
 
-            List(sortedSongs, selection: $selectedSongIDs) { song in
+            List(sortedSongs, id: \.id, selection: $selectedSongIDs) { song in
                 MusicListRow(
                     song: song,
                     isSelected: selectedSongIDs.contains(song.id),
                     isPlaying: playableSong?.path == song.filePath,
                     onPlay: { playSong(song) }
                 )
+                .onTapGesture(count: 2) {
+                    playSong(song)
+                }
                 .listRowInsets(EdgeInsets())
                 .listRowSeparator(.hidden)
-                .listRowBackground(Color.clear)
+                .listRowBackground(Rectangle().fill(Color.clear))
                 .contentShape(Rectangle()) // Ensures tap area is correct
                 .contextMenu {
                     contextMenuContent(for: selectedSongIDs)
                 }
             }
+            .ignoresSafeArea()
             .listStyle(.plain)
             .scrollContentBackground(.hidden) // Removes system background
             .environment(\.defaultMinListRowHeight, 0) // Allows tighter rows

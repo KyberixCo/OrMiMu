@@ -131,9 +131,6 @@ struct MusicListRow: View {
         .background(backgroundColor)
         .contentShape(Rectangle())
         .onHover { isHovering = $0 }
-        .simultaneousGesture(TapGesture(count: 2).onEnded {
-            onPlay()
-        })
         .overlay(
             Rectangle()
                 .frame(height: 1)
